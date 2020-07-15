@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<br />
+<a href="@Model.AuthorizationUrl">Connect to FitBit</a>
+<br />
+\
+<br />
+<a href="https://api.fitbit.com/1/user/-/activities/date/2020-07-04.json?">Get Activites</a>
+<br />
+
+--next get token -> can this happen as part of the onget - can that trigger an automatic redirect her!
+Authorization Code
+@Model.Code
+
+
+
+<br /><br />
+RESPONSE
+<br /><br />
+@Model.htmlResult
+
+
+@* <form method="POST" action="https://www.fitbit.com/oauth2/authorize">
+</form>
+                var _tokenUrl = "https://www.fitbit.com/oauth2/authorize"; 
+d
+
+                    using (var client = new HttpClient())
+                    {
+                        var postData = new List<KeyValuePair<string, string>>();
+                        postData.Add(new KeyValuePair<string, string>("username", _user));
+                        postData.Add(new KeyValuePair<string, string>("password", _pwd));
+                        postData.Add(new KeyValuePair<string, string>("grant_type", "password"));
+                        postData.Add(new KeyValuePair<string, string>("client_id", _clientId));
+                        postData.Add(new KeyValuePair<string, string>("client_secret", _clientSecret));
+
+                        HttpContent content = new FormUrlEncodedContent(postData);
+                        content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+                        var responseResult = client.PostAsync(_tokenUrl, content).Result;
+
+                        var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+
+
+
+                        //get daily activities.
+                        var getActivitiesUrl = "https://api.fitbit.com/1/user/[user-id]/activities/date/2020-07-01.json";
+                        var responseResult1 = client.GetAsync(getActivitiesUrl).Result;
+                        var result1 = responseResult1.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+
+
+
+
+
+
+</form> *@
