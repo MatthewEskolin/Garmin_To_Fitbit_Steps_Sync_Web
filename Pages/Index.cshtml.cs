@@ -13,14 +13,20 @@ using Microsoft.Extensions.Logging;
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
 
+
     public class IndexModel : PageModel
     {
 
         [BindProperty(SupportsGet=true)]
         public string Code{get; set;}
-        private readonly ILogger<IndexModel> _logger;
 
+        [BindProperty(SupportsGet=true)]
+        public string TestMsg {get; set;}
+
+
+        private readonly ILogger<IndexModel> _logger;
         IConfiguration Configuration {get; set;}
+
         public string AuthorizationUrl { get; private set; }
         public string htmlResult { get; private set; } = string.Empty;
 
@@ -30,8 +36,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             Configuration = config;
         }
 
+
+
         public IActionResult OnGet()
         {
+
+
             if(!String.IsNullOrEmpty(Code)){
 
                     var jsonString = FitbitAuthenticateGetJson();
@@ -50,6 +60,33 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
             return Page();
+        }
+
+
+        public IActionResult OnGetAuthorised()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult OnPostAuthorised()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult OnGetTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult OnTest()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IActionResult Test()
+        {
+            throw new NotImplementedException();
         }
 
 

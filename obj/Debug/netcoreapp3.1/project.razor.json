@@ -20521,13 +20521,13 @@
   "RootNamespace": "Garmin_To_Fitbit_Steps_Sync_Web",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\Error.cshtml",
-      "TargetPath": "Pages\\Error.cshtml",
+      "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\Test.cshtml",
+      "TargetPath": "Pages\\Test.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\Pages\\Pages.cshtml",
-      "TargetPath": "Pages\\Pages\\Pages.cshtml",
+      "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\Error.cshtml",
+      "TargetPath": "Pages\\Error.cshtml",
       "FileKind": "mvc"
     },
     {

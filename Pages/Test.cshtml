@@ -1,0 +1,17 @@
+﻿@page "{handler?}"
+@model MyApp.Namespace.TestModel
+@{
+}
+
+
+Test Page
+
+
+VAL = @Model.val
+
+<form method="POST" asp-page-handler="Test" >
+
+    <input type="submit" text="GO">
+
+
+    </form>
