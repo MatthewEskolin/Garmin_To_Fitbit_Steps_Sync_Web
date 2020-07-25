@@ -20541,6 +20541,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\Shared\\_LayoutSimple.cshtml",
+      "TargetPath": "Pages\\Shared\\_LayoutSimple.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Pages\\_ViewImports.cshtml",
       "TargetPath": "Pages\\_ViewImports.cshtml",
       "FileKind": "mvc"

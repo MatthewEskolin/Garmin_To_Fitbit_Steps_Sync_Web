@@ -12,103 +12,82 @@ using Microsoft.Extensions.Logging;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
+    //TODO - learn how to use anti-forgery token + how to encrypt hidden fields (looking for a web-forms like viewstate!?)
 
+    public class AuthorizationResponse
+    {
+       public string access_token {get; set;} 
+       public int expires_in {get; set;}
 
+       public string refresh_token {get; set;}
+
+       public string token_type {get; set;}
+
+       public string user_id {get; set;}
+
+    }
+
+    [BindProperties(SupportsGet=true)]
     public class IndexModel : PageModel
     {
+        [FromBody]
+        public AuthorizationResponse Authorization {get; set;}
 
-        [BindProperty(SupportsGet=true)]
+        //Public Properites
+
+        ///Authoriziation Code
         public string Code{get; set;}
+        //System messages and debugging
+        public string SystemMessage{get; set;}
+        public string ConnectionState {get; set;}
+        public string AuthorizationUrl { get;  set; }
 
-        [BindProperty(SupportsGet=true)]
-        public string TestMsg {get; set;}
-
+        //1 = connected; 0 = Other State
+        public int ConnectionStateCode{get; set;}
 
         private readonly ILogger<IndexModel> _logger;
-        IConfiguration Configuration {get; set;}
-
-        public string AuthorizationUrl { get; private set; }
-        public string htmlResult { get; private set; } = string.Empty;
+        private IConfiguration Configuration {get; set;}
 
         public IndexModel(ILogger<IndexModel> logger,IConfiguration config)
         {
             _logger = logger;
             Configuration = config;
-        }
 
-
-
-        public IActionResult OnGet()
-        {
-
-
-            if(!String.IsNullOrEmpty(Code)){
-
-                    var jsonString = FitbitAuthenticateGetJson();
-                    dynamic obj = JsonSerializer.Deserialize<dynamic>(jsonString);
-
-
-                // return FitbitAuthenticate();
-                //get token
-            }
-
-
-            //Setup Authorization URL
+            //set up Authorizstion URL
             var clientID = Configuration["Fitbit:ClientID"];
             this.AuthorizationUrl = $"https://www.fitbit.com/oauth2/authorize?client_id={clientID}&response_type=code&scope=activity";
-
-
-
-            return Page();
         }
 
-
-        public IActionResult OnGetAuthorised()
+        public void OnGet()
         {
-            throw new NotImplementedException();
+            //how do we know if we are still conected if we have the access token
+            //so we may need to store the access token as a session variable?
         }
 
-        public IActionResult OnPostAuthorised()
+        public void OnGetAuthorised()
         {
-            throw new NotImplementedException();
+
+            //received authorization code, so proceed to get access token.
+            if(!String.IsNullOrEmpty(Code)){
+
+                    var jsonString = GetAccessToken();
+                    AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
+                    this.SystemMessage  = obj.access_token;
+                    this.Authorization = obj;
+                    this.ConnectionState = "Connected";
+                    this.ConnectionStateCode = 1;
+            }
+            else
+            {
+                this.SystemMessage = "Access Code Not Received";
+            }
+
         }
-
-        public IActionResult OnGetTest()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IActionResult OnTest()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public IActionResult Test()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public IActionResult FitbitAuthenticate()
-        {
-            var contentResult = new ContentResult();
-            contentResult.Content = GetAccessToken();
-            contentResult.ContentType = "text/html";
-            return contentResult;
-        }
-
-        public string FitbitAuthenticateGetJson(){
-
-            return GetAccessToken();
-        }
-
         private string GetAccessToken()
         {
                     var tokenUrl = "https://api.fitbit.com/oauth2/token"; 
                     var clientID = Configuration["Fitbit:ClientID"];
                     var clientSecret = Configuration["Fitbit:ClientSecret"];
-
 
                     using (var client = new HttpClient())
                     {
@@ -134,48 +113,19 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                         request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
 
                         var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
-                        // tokenUrl, content).Result;
 
                         var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
+                        return result;
 
-                        this.htmlResult = result;
+                    }
+        }
 
-return result;
-
-                        //get daily activities.
+        //EXAMPLE API CALL - GET 
+        //get daily activities.
                         // var getActivitiesUrl = "https://api.fitbit.com/1/user/[user-id]/activities/date/2020-07-01.json";
                         // var responseResult1 = client.GetAsync(getActivitiesUrl).Result;
                         // var result1 = responseResult1.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                    }
-
-          
-        }
-
-        public void PrepareTokenRequest(){
-
-            // services.AddAuthentication()
-            // .AddFacebook(options =>
-            // {
-            //     options.AppId = Configuration["Authentication:Facebook:AppId"];
-            //     options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            // })
-            // .AddGoogle(options =>
-            // {
-            //     options.ClientId = Configuration["Authentication:Google:ClientId"];
-            //     options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            // });
-
-
-
-
-            // var authenticationString = $"{clientId}:{clientSecret}";
-            // var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
-            // content.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
-
-        }
-
 
     }
 }

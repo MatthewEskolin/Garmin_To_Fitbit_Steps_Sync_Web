@@ -6,12 +6,82 @@
     ViewData["Title"] = "Home page";
 }
 
+<style type="text/css">
+.connectionState.connected{
+    color:green;
+}
+.connectionState.other
+{
+    color:initial;
+
+}
+</style>
+
+<form method="POST" > <input type="submit" text="GO"> </form>
+<br />
+<a href="@Model.AuthorizationUrl">Connect to FitBit</a>
+<br />
+@* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
 
 
-<form method="GET" action="/Handlers?handler=Authorised">
-<input type="submit" text="TEST">
-</form>
-<h1>Documentation</h1>
+<div class="form-horizontal">
+</div>
+
+<table class="table table-dark">
+    <thead>
+        <tr><td>Var</td><td>Value</td></tr>
+    </thead>
+    <tbody>
+        @foreach(var property in ViewData.ModelMetadata.Properties)
+        {
+            <tr>
+                <td>@Html.Label(property.Name,property.GetDisplayName(), new{ @class = "control-label col-md-2"})</td>
+                <td>@Html.Display(property.PropertyName, new{ htmlAttributes = new{ @class = "form-control col-md-2"} })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* Move to Bootstrap Cookbook! *@
+@* {
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        System Message
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+            <span class="@spnClass">@Model.ConnectionState</span>
+    </div>
+  </div>
+</div> 
+} *@
+@* End Cookbook*@
+
+@{
+    var spnClass = "connectionState";
+    if(@Model.ConnectionStateCode == 1){
+        spnClass = "connectionState connected";
+    }
+    else
+    {
+        spnClass = "connectionState other";
+    }
+}
+@Html.LabelFor(x => x.ConnectionState, new {@class = spnClass})
+
+@Html.HiddenFor(x => x.ConnectionStateCode);
+@Html.HiddenFor(x => x.ConnectionState);
+@Html.HiddenFor(x => x.Authorization.access_token);
+@Html.HiddenFor(x => x.Authorization.refresh_token);
+@Html.HiddenFor(x => x.Authorization.expires_in);
+@Html.HiddenFor(x => x.Authorization.token_type);
+@Html.HiddenFor(x => x.Authorization.user_id);
+
+<h2>Documentation</h2>
 <p>>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
 <p>I use a garmin watch to count my steps, but the  rest of my my family using Fitbit. I want to participate in my family's step leaderboard, so therefore I need a way to get my step counts into fitbit without the use of a fitbit device.</p>
 <p>Fortunately, steps logged in fitbit's activity API count toward the step total in fitbit. I had been using the fitbit.com web interface to log these activities (the android interface does not allow for step data entry). To create an entry on fitbit's web interface, you must enter an activity type of
@@ -19,72 +89,15 @@ running or walking, a start time, a total time, and distance in steps.
 </p>
 <p>This app log the start time as 12:00 AM, and the total time as 23:59:59. I feel this makese sense because our purpose is to capture our daily steps, and steps could be taken at anytime of the day.</p>
 
-<h1>Technical Walkthrough - Source Code for this App is available on github</h1>
+<h3>Technical Details</h3>
+
+<p>Source Code for this App is available on github</p>
 <p>This app uses OAuth 2.0 Authorization Grant Flow to Authenticate to fitbit.</p>
 <p>(1) Step 1 - request is made to an authorization URL - after the user logs in to fitbit, they are redirected back to this App </p>
-<p>(2) This App makes a request using the Authorization Code to get an access token. </p>
+<p>(2) Step 2 - This App makes a request using the Authorization Code to get an access token. </p>
+<p>(3) Step 3 - The Access Toekn is used to make requests to read and write data using the allowed scopes.</p>
 
 
-
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<br />
-<a href="@Model.AuthorizationUrl">Connect to FitBit</a>
-<br />
-\
-<br />
-<a href="https://api.fitbit.com/1/user/-/activities/date/2020-07-04.json?">Get Activites</a>
-<br />
-
---next get token -> can this happen as part of the onget - can that trigger an automatic redirect her!
-Authorization Code
-@Model.Code
-
-
-
-<br /><br />
-RESPONSE
-<br /><br />
-@Model.htmlResult
-
-
-@* <form method="POST" action="https://www.fitbit.com/oauth2/authorize">
-</form>
-                var _tokenUrl = "https://www.fitbit.com/oauth2/authorize"; 
-d
-
-                    using (var client = new HttpClient())
-                    {
-                        var postData = new List<KeyValuePair<string, string>>();
-                        postData.Add(new KeyValuePair<string, string>("username", _user));
-                        postData.Add(new KeyValuePair<string, string>("password", _pwd));
-                        postData.Add(new KeyValuePair<string, string>("grant_type", "password"));
-                        postData.Add(new KeyValuePair<string, string>("client_id", _clientId));
-                        postData.Add(new KeyValuePair<string, string>("client_secret", _clientSecret));
-
-                        HttpContent content = new FormUrlEncodedContent(postData);
-                        content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-                        var responseResult = client.PostAsync(_tokenUrl, content).Result;
-
-                        var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-
-
-
-                        //get daily activities.
-                        var getActivitiesUrl = "https://api.fitbit.com/1/user/[user-id]/activities/date/2020-07-01.json";
-                        var responseResult1 = client.GetAsync(getActivitiesUrl).Result;
-                        var result1 = responseResult1.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-
-
-
-
-
-
-</form> *@
+@* <br />
+<a stylehref="https://api.fitbit.com/1/user/-/activities/date/2020-07-04.json?">Get Activites</a>
+<br /> *@
