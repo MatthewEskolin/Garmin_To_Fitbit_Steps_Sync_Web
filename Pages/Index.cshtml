@@ -17,9 +17,18 @@
 }
 </style>
 
-<form method="POST" > <input type="submit" text="GO"> </form>
+@* 
+<form method="GET" asp-page-handler="DailyActivities">
+    <input type="submit" text="get daily activities" value="daily">
+</form>
+
+<form method="POST" > <input type="submit" text="GO"> </form> *@
+
+
 <br />
 <a href="@Model.AuthorizationUrl">Connect to FitBit</a>
+<a asp-page-handler="DailyActivities">Get Activities</a>
+
 <br />
 @* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
 
@@ -73,8 +82,12 @@
 }
 @Html.LabelFor(x => x.ConnectionState, new {@class = spnClass})
 
+
 @Html.HiddenFor(x => x.ConnectionStateCode);
 @Html.HiddenFor(x => x.ConnectionState);
+
+
+HIDDEN HERE -> @Model.Authorization?.access_token
 @Html.HiddenFor(x => x.Authorization.access_token);
 @Html.HiddenFor(x => x.Authorization.refresh_token);
 @Html.HiddenFor(x => x.Authorization.expires_in);
