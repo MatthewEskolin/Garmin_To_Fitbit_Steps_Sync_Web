@@ -16,18 +16,10 @@
 
 }
 </style>
-
-@* 
-<form method="GET" asp-page-handler="DailyActivities">
-    <input type="submit" text="get daily activities" value="daily">
-</form>
-
-<form method="POST" > <input type="submit" text="GO"> </form> *@
-
-
+<form method="POST">
 <br />
-<a href="@Model.AuthorizationUrl">Connect to FitBit</a>
-<a asp-page-handler="DailyActivities">Get Activities</a>
+<a class="link-button" href="@Model.AuthorizationUrl">Connect to FitBit</a>
+<input class="link-button" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
 
 <br />
 @* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
@@ -88,11 +80,11 @@
 
 
 HIDDEN HERE -> @Model.Authorization?.access_token
-@Html.HiddenFor(x => x.Authorization.access_token);
-@Html.HiddenFor(x => x.Authorization.refresh_token);
-@Html.HiddenFor(x => x.Authorization.expires_in);
-@Html.HiddenFor(x => x.Authorization.token_type);
-@Html.HiddenFor(x => x.Authorization.user_id);
+@Html.HiddenFor(x => x.Authorization.access_token)
+@Html.HiddenFor(x => x.Authorization.refresh_token)
+@Html.HiddenFor(x => x.Authorization.expires_in)
+@Html.HiddenFor(x => x.Authorization.token_type)
+@Html.HiddenFor(x => x.Authorization.user_id)
 
 <h2>Documentation</h2>
 <p>>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
@@ -114,3 +106,7 @@ running or walking, a start time, a total time, and distance in steps.
 @* <br />
 <a stylehref="https://api.fitbit.com/1/user/-/activities/date/2020-07-04.json?">Get Activites</a>
 <br /> *@
+
+
+<input type="submit" value="testsubmit" asp-page-handler="Post">
+</form>

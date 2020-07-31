@@ -21,7 +21,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         //Public Properites
 
-        [FromBody]
+        [FromForm]
+        [BindProperty]
         public AuthorizationResponse Authorization {get; set;}
 
         ///Authoriziation Code from Auth flow
@@ -58,12 +59,17 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             //so we may need to store the access token as a session variable?
         }
 
+        public void OnPost()
+        {
+            //test
+        }
+
         public void OnPostCreateActivity()
         {
 
         }
 
-        public void OnGetDailyActivities()
+        public void OnPostDailyActivities([FromForm] AuthorizationResponse test)
         {
 
                     var getActivitiesUrl = "https://api.fitbit.com/1/user/-/activities/date/2020-07-01.json";
@@ -79,11 +85,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                         // HttpContent content = new ();
                         // content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-                        request.Content = new StringContent(string.Empty);
-
-                        request.Content.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
+                        // request.Content = new StringContent(string.Empty);
+                        request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
                         
                         var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+                    
 
                         var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 

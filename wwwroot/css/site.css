@@ -69,3 +69,28 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.link-button {
+
+  background: #ffffff none repeat scroll 0 0;
+
+  border: 1px solid #aa8d56;
+
+  color: #aa8d56;
+
+  outline: medium none;
+
+  padding: 15px;
+
+  text-decoration: none;
+
+}
+
+.link-button:hover {
+
+  Background-color:  #aa8d56;
+
+  Color: #ffffff;
+
+}
+
