@@ -13,12 +13,10 @@ using Microsoft.Extensions.Logging;
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
     [BindProperties(SupportsGet=true)]
-    public class IndexModel : PageModel
+    public partial class IndexModel : PageModel
     {
 
         //NEED TO TURN MY GET ACTIVITIES INTO A MAJOR POST!
-        
-
         //Public Properites
 
         [FromForm]
@@ -64,12 +62,81 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             //test
         }
 
+
+        //gets activity types so we can find out what ID to use for walking
+        public ContentResult OnGetActivityTypes()
+        {
+            var url_getActivityTypes = "https://api.fitbit.com/1/activities.json";
+
+
+                    using (var client = new HttpClient())
+                    {
+
+                        var request = new HttpRequestMessage();
+                        request.Method = HttpMethod.Get;
+                        request.RequestUri = new Uri(url_getActivityTypes);
+                        
+                        request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
+                        
+                        var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+
+                        var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                        // var serializedresult = JsonSerializer.Deserialize<Root>(result);
+
+                        // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions(){WriteIndented = true});
+
+                        // var steps = serializedresult.summary.steps;
+
+                        return new ContentResult { Content = result, ContentType = "application/json" };
+
+
+                    } 
+        }
+
         public void OnPostCreateActivity()
         {
+            //Create's an activity inside my fitbit account for the day with the input number of steps.
+
+                    var getActivitiesUrl = "https://api.fitbit.com/1/user/-/activities/date/2020-07-01.json";
+
+                    using (var client = new HttpClient())
+                    {
+
+                        var request = new HttpRequestMessage();
+                        request.Method = HttpMethod.Get;
+                        request.RequestUri = new Uri(getActivitiesUrl);
+
+
+
+                        // HttpContent content = new ();
+                        // content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                        // request.Content = new StringContent(string.Empty);
+                        request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
+                        
+                        var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+                    
+
+                        var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                        var serializedresult = JsonSerializer.Deserialize<Root>(result);
+
+                        string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions(){WriteIndented = true});
+
+                        var steps = serializedresult.summary.steps;
+
+                        // return new ContentResult { Content = jsonFormatted, ContentType = "application/json" };
+
+
+
 
         }
 
-        public void OnPostDailyActivities([FromForm] AuthorizationResponse test)
+
+        }
+
+
+        public ContentResult OnPostDailyActivities([FromForm] AuthorizationResponse test)
         {
 
                     var getActivitiesUrl = "https://api.fitbit.com/1/user/-/activities/date/2020-07-01.json";
@@ -93,8 +160,14 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                         var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
+                        var serializedresult = JsonSerializer.Deserialize<Root>(result);
 
-                        //return new JsonResult(result);
+                        string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions(){WriteIndented = true});
+
+                        var steps = serializedresult.summary.steps;
+
+                        return new ContentResult { Content = jsonFormatted, ContentType = "application/json" };
+
 
                     }
         }
@@ -156,9 +229,4 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                     }
         }
-
-        //EXAMPLE API CALL - GET 
-        //get daily activities.
-
-    }
 }
