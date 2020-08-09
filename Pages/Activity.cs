@@ -2,13 +2,6 @@ using System;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
-    public partial class IndexModel
-    {
-        //EXAMPLE API CALL - GET 
-        //get daily activities.
-
-
-
 
         //*Generated class from json2csharp.com //
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
@@ -31,3 +24,5 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         public int steps { get; set; } 
     }
 }
+
+

@@ -1,0 +1,74 @@
+{
+    "activities": [
+      {
+        "activityId": 17151,
+        "activityParentId": 90013,
+        "activityParentName": "Walk",
+        "calories": 3720,
+        "description": "Walking less than 2 mph, strolling very slowly",
+        "distance": 10.116353,
+        "duration": 86399000,
+        "hasActiveZoneMinutes": false,
+        "hasStartTime": true,
+        "isFavorite": false,
+        "lastModified": "2020-07-02T16:53:56Z",
+        "logId": 32361352833,
+        "name": "Walk",
+        "startDate": "2020-07-01",
+        "startTime": "00:00",
+        "steps": 12970
+      }
+    ],
+    "goals": {
+      "activeMinutes": 30,
+      "caloriesOut": 2986,
+      "distance": 8.05,
+      "steps": 10000
+    },
+    "summary": {
+      "activeScore": -1,
+      "activityCalories": 3720,
+      "caloriesBMR": 1859,
+      "caloriesOut": 3719,
+      "distances": [
+        {
+          "activity": "Walk",
+          "distance": 10.116353
+        },
+        {
+          "activity": "total",
+          "distance": 10.12
+        },
+        {
+          "activity": "tracker",
+          "distance": 0
+        },
+        {
+          "activity": "loggedActivities",
+          "distance": 10.116353
+        },
+        {
+          "activity": "veryActive",
+          "distance": 0
+        },
+        {
+          "activity": "moderatelyActive",
+          "distance": 0
+        },
+        {
+          "activity": "lightlyActive",
+          "distance": 10.12
+        },
+        {
+          "activity": "sedentaryActive",
+          "distance": 0
+        }
+      ],
+      "fairlyActiveMinutes": 0,
+      "lightlyActiveMinutes": 1440,
+      "marginalCalories": 0,
+      "sedentaryMinutes": 0,
+      "steps": 12970,
+      "veryActiveMinutes": 0
+    }
+  }

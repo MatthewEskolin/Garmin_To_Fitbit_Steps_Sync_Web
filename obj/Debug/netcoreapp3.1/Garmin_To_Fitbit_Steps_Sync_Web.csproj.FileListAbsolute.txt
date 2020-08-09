@@ -35,3 +35,5 @@ C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\obj\Debug\netcoreapp
 C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\obj\Debug\netcoreapp3.1\Garmin_To_Fitbit_Steps_Sync_Web.csproj.CopyComplete
 C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\obj\Debug\netcoreapp3.1\Razor\Pages\Test.cshtml.g.cs
 C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_LayoutSimple.cshtml.g.cs
+C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\bin\Debug\netcoreapp3.1\Pages\activities.json
+C:\Users\matte\source\repos\Garmin_To_Fitbit_Steps_Sync_Web\bin\Debug\netcoreapp3.1\Pages\Example_Activiy.json
