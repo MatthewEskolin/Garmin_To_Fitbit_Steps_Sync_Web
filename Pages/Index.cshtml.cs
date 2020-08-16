@@ -16,6 +16,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
     public partial class IndexModel : PageModel
     {
 
+
+
+
         //NEED TO TURN MY GET ACTIVITIES INTO A MAJOR POST!
         //Public Properites
 
