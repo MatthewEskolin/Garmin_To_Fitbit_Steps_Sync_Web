@@ -1,6 +1,5 @@
 ﻿@page "{handler?}"
 @* @page  *@
-
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -15,58 +14,19 @@
     color:initial;
 
 }
+.hide{
+    display:none;
+}
 </style>
+
 <form method="POST">
 <br />
-<a class="link-button" href="@Model.AuthorizationUrl">Connect to FitBit</a>
-<input class="link-button" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
-<input class="link-button" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
+@Model.Steps.ToString()
 
-Enter Steps: <input asp-for="Steps" type="text" id="inSteps">
-<input class="link-button" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />jj
-
-
-<br />
+@* Connection Indicator *@
 @* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
-
-
-<div class="form-horizontal">
-</div>
-
-<table class="table table-dark">
-    <thead>
-        <tr><td>Var</td><td>Value</td></tr>
-    </thead>
-    <tbody>
-        @foreach(var property in ViewData.ModelMetadata.Properties)
-        {
-            <tr>
-                <td>@Html.Label(property.Name,property.GetDisplayName(), new{ @class = "control-label col-md-2"})</td>
-                <td>@Html.Display(property.PropertyName, new{ htmlAttributes = new{ @class = "form-control col-md-2"} })</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@* Move to Bootstrap Cookbook! *@
-@* {
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-        System Message
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-            <span class="@spnClass">@Model.ConnectionState</span>
-    </div>
-  </div>
-</div> 
-} *@
-@* End Cookbook*@
-
+<div>
+<a class="link-button" href="@Model.AuthorizationUrl">Connect to FitBit</a>
 @{
     var spnClass = "connectionState";
     if(@Model.ConnectionStateCode == 1){
@@ -78,18 +38,41 @@ Enter Steps: <input asp-for="Steps" type="text" id="inSteps">
     }
 }
 @Html.LabelFor(x => x.ConnectionState, new {@class = spnClass})
+</div>
+
+date here >>>><<<<<<
+
+<div>
+<fieldset>
+    <legend>Steps</legend>
+     <select asp-for="ActivityDate" asp-items="Model.AvailableDatesSelect"></select>
+
+        @foreach(var date in @Model.AvailableDatesSelect){
+            @date.Text
+        }
 
 
-@Html.HiddenFor(x => x.ConnectionStateCode);
-@Html.HiddenFor(x => x.ConnectionState);
+                @foreach(var intv in @Model.Ints){
+            @intv @:ints here
 
 
-HIDDEN HERE -> @Model.Authorization?.access_token
-@Html.HiddenFor(x => x.Authorization.access_token)
-@Html.HiddenFor(x => x.Authorization.refresh_token)
-@Html.HiddenFor(x => x.Authorization.expires_in)
-@Html.HiddenFor(x => x.Authorization.token_type)
-@Html.HiddenFor(x => x.Authorization.user_id)
+        }
+
+        ints above
+
+    Steps: <input asp-for="Steps" type="text" id="inSteps">
+</fieldset>
+<input class="link-button" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />jj
+</div>
+<br />
+
+
+
+
+<div class="form-horizontal">
+    this is horizontal form
+</div>
+
 
 <h2>Documentation</h2>
 <p>>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
@@ -108,10 +91,20 @@ running or walking, a start time, a total time, and distance in steps.
 <p>(3) Step 3 - The Access Toekn is used to make requests to read and write data using the allowed scopes.</p>
 
 
-@* <br />
-<a stylehref="https://api.fitbit.com/1/user/-/activities/date/2020-07-04.json?">Get Activites</a>
-<br /> *@
 
 
-<input type="submit" value="testsubmit" asp-page-handler="Post">
+<h3>Development Buttons - used for debugging</h3>
+<input class="link-button hide" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
+<input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
+
+
+
+@* Hidden Fields *@
+@Html.HiddenFor(x => x.ConnectionStateCode);
+@Html.HiddenFor(x => x.ConnectionState);
+@Html.HiddenFor(x => x.Authorization.access_token)
+@Html.HiddenFor(x => x.Authorization.refresh_token)
+@Html.HiddenFor(x => x.Authorization.expires_in)
+@Html.HiddenFor(x => x.Authorization.token_type)
+@Html.HiddenFor(x => x.Authorization.user_id)
 </form>

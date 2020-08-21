@@ -8,25 +8,19 @@ using System.Threading.Tasks;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
-    [BindProperties(SupportsGet = true)]
     public partial class IndexModel : PageModel
     {
-
-
-
-
-        //NEED TO TURN MY GET ACTIVITIES INTO A MAJOR POST!
         //Public Properites
 
         [FromForm]
         [BindProperty]
         public AuthorizationResponse Authorization { get; set; }
-
 
         public int Steps {get; set;}
 
@@ -44,6 +38,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         //1 = connected; 0 = Other State
         public int ConnectionStateCode { get; set; }
 
+        // public List<DateTime> AvailableDates {get; set;}
+        public List<SelectListItem> AvailableDatesSelect { get;  set; }
+        public DateTime ActivityDate {get; set;}
+
+
+           public List<int> Ints {get; set;} = new List<int>(){2,3,4,5} ;
 
         private readonly ILogger<IndexModel> _logger;
         private IConfiguration Configuration { get; set; }
@@ -56,7 +56,33 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             //set up Authorizstion URL
             var clientID = Configuration["Fitbit:ClientID"];
             this.AuthorizationUrl = $"https://www.fitbit.com/oauth2/authorize?client_id={clientID}&response_type=code&scope=activity";
+
+            //setup available dates
+            //TODAY - YESTERDAY - DAYBEFOREYESTERDAY
+            var today = DateTime.Now.Date;
+            var yesterday = today.AddDays(-1);
+            var daybeforeyesterady = today.AddDays(-2);
+
+
+            Steps = 10000;
+
+
+            // AvailableDates = new List<DateTime>(){today,yesterday, daybeforeyesterady};
+            AvailableDatesSelect = new List<SelectListItem>(){
+
+
+                new SelectListItem(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
+                new SelectListItem(){Text = $"Yesterday - {today.ToShortDateString()}", Value = yesterday.ToShortDateString()},
+                new SelectListItem(){Text = $"Anteayer - {today.ToShortDateString()}", Value = daybeforeyesterady.ToShortDateString()}
+
+
+            };
+
         }
+
+
+
+
 
         public void OnGet()
         {

@@ -1,0 +1,39 @@
+<!-- Contains COOKBOOK Items that were discovered while working on this project -->
+<!-- COOKBOOK - helpful to debug Model Properties --> 
+<!-- 
+<table class="table table-dark">
+    <thead>
+        <tr><td>Var</td><td>Value</td></tr>
+    </thead>
+    <tbody>
+        @foreach(var property in ViewData.ModelMetadata.Properties)
+        {
+            <tr>
+                <td>@Html.Label(property.Name,property.GetDisplayName(), new{ @class = "control-label col-md-2"})</td>
+                <td>@Html.Display(property.PropertyName, new{ htmlAttributes = new{ @class = "form-control col-md-2"} })</td>
+            </tr>
+        }
+    </tbody>
+</table>
+-->
+<!-- End Cookbook -->
+
+
+@* Move to Bootstrap Cookbook! *@
+@* {
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        System Message
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+            <span class="@spnClass">@Model.ConnectionState</span>
+    </div>
+  </div>
+</div> 
+} *@
+@* End Cookbook*@

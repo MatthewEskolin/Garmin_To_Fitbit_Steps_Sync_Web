@@ -15,6 +15,10 @@ namespace MyApp.Namespace
     {
         [BindProperty(SupportsGet=true)]
         public string val {get; set;}
+
+
+                    [BindProperty(SupportsGet=true)]
+                   public List<int> Ints {get; set;} = new List<int>(){2,3,4,5} ;
         public void OnGet()
         {
         }

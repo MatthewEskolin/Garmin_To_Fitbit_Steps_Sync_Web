@@ -10,6 +10,15 @@ Test Page
 
 VAL = @Model.val
 
+                @foreach(var intv in @Model.Ints){
+            @intv @:ints here
+
+
+        }
+
+        ints above
+
+
 <form method="POST" asp-page-handler="Test" >
 
     <input type="submit" text="GO">
