@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,29 +18,37 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
     public partial class IndexModel : PageModel
     {
         //Public Properites
-
+        #region Properties
         [FromForm]
         [BindProperty]
         public AuthorizationResponse Authorization { get; set; }
 
+        [BindProperty]
         public int Steps {get; set;}
 
         ///Authoriziation Code from Auth flow
+        [BindProperty(SupportsGet=true)] 
         public string Code { get; set; }
 
         //System messages and debugging
         public string SystemMessage { get; set; }
 
         //display connection state to the user
+        [BindProperty]
+        [Display(Name = "Connection State")]
         public string ConnectionState { get; set; }
 
         public string AuthorizationUrl { get; set; }
 
         //1 = connected; 0 = Other State
+        [BindProperty]
         public int ConnectionStateCode { get; set; }
 
         // public List<DateTime> AvailableDates {get; set;}
         public List<SelectListItem> AvailableDatesSelect { get;  set; }
+
+        [Display(Name = "Activity Date")]
+        [BindProperty]
         public DateTime ActivityDate {get; set;}
 
 
@@ -47,6 +56,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         private readonly ILogger<IndexModel> _logger;
         private IConfiguration Configuration { get; set; }
+
+        #endregion
 
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {
@@ -64,37 +75,29 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             var daybeforeyesterady = today.AddDays(-2);
 
 
-            Steps = 10000;
-
-
             // AvailableDates = new List<DateTime>(){today,yesterday, daybeforeyesterady};
             AvailableDatesSelect = new List<SelectListItem>(){
 
 
                 new SelectListItem(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
-                new SelectListItem(){Text = $"Yesterday - {today.ToShortDateString()}", Value = yesterday.ToShortDateString()},
-                new SelectListItem(){Text = $"Anteayer - {today.ToShortDateString()}", Value = daybeforeyesterady.ToShortDateString()}
+                new SelectListItem(){Text = $"Yesterday - {yesterday.ToShortDateString()}", Value = yesterday.ToShortDateString()},
+                new SelectListItem(){Text = $"Anteayer - {daybeforeyesterady.ToShortDateString()}", Value = daybeforeyesterady.ToShortDateString()}
 
 
             };
 
         }
-
-
-
-
-
         public void OnGet()
         {
+            ConnectionState = "Ready To Connect";
+            Steps = 1;
             //how do we know if we are still conected if we have the access token
             //so we may need to store the access token as a session variable?
         }
-
         public void OnPost()
         {
             //test
         }
-
 
         //gets activity types so we can find out what ID to use for walking
         public ContentResult OnPostActivityTypes()
@@ -126,10 +129,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             }
         }
-
-
-
-        public ContentResult OnPostCreateActivity()
+        public void OnPostCreateActivity()
         {
             //Create's an activity inside my fitbit account for the day with the input number of steps.
 
@@ -168,19 +168,45 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                //Json Can be Deserialied and then Serialized again in order to format with with indents for readabiility
 
+                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    //attempt to deserialize error state
+                    try{
+
+                        var serializedresult = JsonSerializer.Deserialize<ErrorRoot>(result);
+                        SystemMessage = serializedresult.errors[0].message;
+                        return;
+
+                    }
+                    catch
+                    {
+                        SystemMessage = "Activty Creation Failed - Unknown Response Type.";
+                        return;
+                    }
+                }
+                else
+                {
+                    //Should be an activity root returned
+                    var serializedresult = JsonSerializer.Deserialize<ActivityTypeRoot>(result);
+                    string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
+
+                }
+
+                //*Json Can be Deserialied and then Serialized again in order to format with with indents for readabiility
                 // var serializedresult = JsonSerializer.Deserialize<Root>(result);
                 // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
                 // var steps = serializedresult.summary.steps;
 
-                return new ContentResult { Content = result, ContentType = "application/json" };
+                //*Uncomment below lineto get result returned from API
+                 //return new ContentResult { Content = result, ContentType = "application/json" };
+
+                 SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
 
             }
 
 
         }
-
         public ContentResult OnPostDailyActivities([FromForm] AuthorizationResponse test)
         {
 
@@ -202,10 +228,10 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
-
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                
 
-                var serializedresult = JsonSerializer.Deserialize<Root>(result);
+                var serializedresult = JsonSerializer.Deserialize<ActivityTypeRoot>(result);
 
                 string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
 
@@ -226,10 +252,10 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var jsonString = GetAccessToken();
                 AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
-                this.SystemMessage = obj.access_token;
                 this.Authorization = obj;
                 this.ConnectionState = "Connected";
                 this.ConnectionStateCode = 1;
+                this.Steps = 1;
             }
             else
             {
@@ -276,3 +302,44 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
     }
 }
+
+
+
+
+namespace folding_example_LEVEL_1
+{
+    public class folding_example_LEVEL_2
+    {
+        public class folding_example_LEVEL_3{
+
+        }
+
+        public void folding_Example_LEVEL_3(){
+
+            if(true)
+            { // LEVEL 4
+
+                
+            }
+
+        }
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

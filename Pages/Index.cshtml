@@ -20,13 +20,35 @@
 </style>
 
 <form method="POST">
+<h2>Create Fitbit Activity for Daily Steps</h2>
+<p>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
+<p>I use a garmin watch to count my steps, but the  rest of my my family using Fitbit. I want to participate in my family's step leaderboard, so therefore I need a way to get my step counts into fitbit without the use of a fitbit device.</p>
+<p>Fortunately, steps logged in fitbit's activity API count toward the step total in fitbit. I had been using the fitbit.com web interface to log these activities (the android interface does not allow for step data entry). To create an entry on fitbit's web interface, you must enter an activity type of
+running or walking, a start time, a total time, and distance in steps.    
+</p>
+<p>This app log the start time as 12:00 AM, and the total time as 12:00:00 I feel this makese sense because our purpose is to capture our daily steps, and steps could be taken at anytime of the day,excluding some time for rest and sleep.</p>
+<div class="form-group row">
+    @Html.LabelFor(x => x.ActivityDate,new {@class = "col-sm-2 col-form-label"})
+    <div class="col-sm-10">
+        <select asp-for="ActivityDate" asp-items="Model.AvailableDatesSelect"></select>
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(x => x.Steps, new {@class = "col-sm-2 col-form-label"})
+    <div class="col-sm-10">
+        <input asp-for="Steps" type="text" id="inSteps">
+    </div>
+</div>
+<input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />
+<a class="btn btn-primary" href="@Model.AuthorizationUrl">Connect to FitBit</a>
 <br />
-@Model.Steps.ToString()
+
+@* Only show this button if we are not connected *@
+@* TODO only show this below if we are not connected *@
 
 @* Connection Indicator *@
 @* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
 <div>
-<a class="link-button" href="@Model.AuthorizationUrl">Connect to FitBit</a>
 @{
     var spnClass = "connectionState";
     if(@Model.ConnectionStateCode == 1){
@@ -37,50 +59,13 @@
         spnClass = "connectionState other";
     }
 }
-@Html.LabelFor(x => x.ConnectionState, new {@class = spnClass})
-</div>
-
-date here >>>><<<<<<
-
-<div>
-<fieldset>
-    <legend>Steps</legend>
-     <select asp-for="ActivityDate" asp-items="Model.AvailableDatesSelect"></select>
-
-        @foreach(var date in @Model.AvailableDatesSelect){
-            @date.Text
-        }
-
-
-                @foreach(var intv in @Model.Ints){
-            @intv @:ints here
-
-
-        }
-
-        ints above
-
-    Steps: <input asp-for="Steps" type="text" id="inSteps">
-</fieldset>
-<input class="link-button" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />jj
-</div>
+@Html.LabelFor(x => x.ConnectionState):
+@Html.DisplayFor(x => x.ConnectionState, new {@class = spnClass})
 <br />
+@Html.DisplayFor(x => x.SystemMessage)
 
-
-
-
-<div class="form-horizontal">
-    this is horizontal form
 </div>
 
-
-<h2>Documentation</h2>
-<p>>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
-<p>I use a garmin watch to count my steps, but the  rest of my my family using Fitbit. I want to participate in my family's step leaderboard, so therefore I need a way to get my step counts into fitbit without the use of a fitbit device.</p>
-<p>Fortunately, steps logged in fitbit's activity API count toward the step total in fitbit. I had been using the fitbit.com web interface to log these activities (the android interface does not allow for step data entry). To create an entry on fitbit's web interface, you must enter an activity type of
-running or walking, a start time, a total time, and distance in steps.    
-</p>
-<p>This app log the start time as 12:00 AM, and the total time as 23:59:59. I feel this makese sense because our purpose is to capture our daily steps, and steps could be taken at anytime of the day.</p>
 
 <h3>Technical Details</h3>
 
@@ -93,15 +78,15 @@ running or walking, a start time, a total time, and distance in steps.
 
 
 
-<h3>Development Buttons - used for debugging</h3>
+<h2 style="display:none;">Development Buttons - used for debugging</h3>
 <input class="link-button hide" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
 <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
 
 
 
 @* Hidden Fields *@
-@Html.HiddenFor(x => x.ConnectionStateCode);
-@Html.HiddenFor(x => x.ConnectionState);
+@Html.HiddenFor(x => x.ConnectionStateCode)
+@Html.HiddenFor(x => x.ConnectionState)
 @Html.HiddenFor(x => x.Authorization.access_token)
 @Html.HiddenFor(x => x.Authorization.refresh_token)
 @Html.HiddenFor(x => x.Authorization.expires_in)

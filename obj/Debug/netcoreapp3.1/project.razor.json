@@ -14387,7 +14387,7 @@
         }
       }
     ],
-    "CSharpLanguageVersion": 800
+    "CSharpLanguageVersion": 900
   },
   "RootNamespace": "Garmin_To_Fitbit_Steps_Sync_Web",
   "Documents": [
