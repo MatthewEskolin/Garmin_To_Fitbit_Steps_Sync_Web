@@ -20,7 +20,21 @@
 </style>
 
 <form method="POST">
-<h2>Create Fitbit Activity for Daily Steps</h2>
+
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Create Fitbit Activity for Daily Steps
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+
+<h2></h2>
 <p>This App allows a user to create an activity on FitBit by entering only the number of steps taken each day.</p>
 <p>I use a garmin watch to count my steps, but the  rest of my my family using Fitbit. I want to participate in my family's step leaderboard, so therefore I need a way to get my step counts into fitbit without the use of a fitbit device.</p>
 <p>Fortunately, steps logged in fitbit's activity API count toward the step total in fitbit. I had been using the fitbit.com web interface to log these activities (the android interface does not allow for step data entry). To create an entry on fitbit's web interface, you must enter an activity type of
@@ -67,7 +81,24 @@ running or walking, a start time, a total time, and distance in steps.
 </div>
 
 
-<h3>Technical Details</h3>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+         Technical Details
+        </button>
+      </h2>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+
+
+<h3></h3>
 
 <p>Source Code for this App is available on github</p>
 <p>This app uses OAuth 2.0 Authorization Grant Flow to Authenticate to fitbit.</p>
@@ -75,13 +106,54 @@ running or walking, a start time, a total time, and distance in steps.
 <p>(2) Step 2 - This App makes a request using the Authorization Code to get an access token. </p>
 <p>(3) Step 3 - The Access Toekn is used to make requests to read and write data using the allowed scopes.</p>
 
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Other Tools
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+
+
 
 
 
 <h2 style="display:none;">Development Buttons - used for debugging</h3>
 <input class="link-button hide" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
 <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
-<input class="" asp-page-handler="GetPrevious7DaysSteps" Value="Get Time Series" type="submit" />
+<input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -19,6 +19,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
     {
         //Public Properites
         #region Properties
+
+        //Bound Properties
         [FromForm]
         [BindProperty]
         public AuthorizationResponse Authorization { get; set; }
@@ -30,33 +32,36 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         [BindProperty(SupportsGet=true)] 
         public string Code { get; set; }
 
-        //System messages and debugging
-        public string SystemMessage { get; set; }
-
         //display connection state to the user
         [BindProperty]
         [Display(Name = "Connection State")]
         public string ConnectionState { get; set; }
 
-        public string AuthorizationUrl { get; set; }
 
         //1 = connected; 0 = Other State
         [BindProperty]
         public int ConnectionStateCode { get; set; }
 
-        // public List<DateTime> AvailableDates {get; set;}
-        public List<SelectListItem> AvailableDatesSelect { get;  set; }
 
         [Display(Name = "Activity Date")]
         [BindProperty]
         public DateTime ActivityDate {get; set;}
 
 
-           public List<int> Ints {get; set;} = new List<int>(){2,3,4,5} ;
+        //Step Data
+        public long? LastSevenDaysSteps {get; set;}
+        public long? LastSevenDaysAverageSteps {get; set;}
+
+
+        //Properties which are not bound
 
         private readonly ILogger<IndexModel> _logger;
         private IConfiguration Configuration { get; set; }
 
+        public List<SelectListItem> AvailableDatesSelect { get;  set; }
+        //System messages and debugging
+        public string SystemMessage { get; set; }
+        public string AuthorizationUrl { get; set; }
         #endregion
 
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
@@ -350,6 +355,38 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             }
         }
 
+        //This method get's step data for the current logged in user, and is not triggered from a post or get
+        public void GetStepData(){
+
+            var today = DateTime.Now.ToString("yyyy-MM-dd");
+
+            using (var client = new HttpClient())
+            {
+
+                var request = new HttpRequestMessage(){
+
+                    Method =HttpMethod.Get,
+                    RequestUri = new Uri($"https://api.fitbit.com/1/user/-/activities/steps/date/{today}/7d.json")
+ 
+                };
+
+
+                request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
+                var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+                var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                var serializedresult = JsonSerializer.Deserialize<ActivitiesStepRoot>(result);
+
+                //use json to caluclate the total steps we have done in the last 7 days, as well as the average steps per day we have completed.
+                var averageStepsPerDay = serializedresult.ActivitiesSteps.Average(x => long.Parse(x.value));
+                var totalStepsLast7Days = serializedresult.ActivitiesSteps.Sum(x => long.Parse(x.value));
+
+                this.LastSevenDaysAverageSteps = (long)averageStepsPerDay;
+                this.LastSevenDaysSteps = totalStepsLast7Days;
+        }
+
+
+
+        }
 
 
     }
