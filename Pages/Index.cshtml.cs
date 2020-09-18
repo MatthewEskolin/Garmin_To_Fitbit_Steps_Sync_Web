@@ -87,19 +87,83 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             };
 
         }
+
         public void OnGet()
         {
+            //Initial Page Load -> We don't have an access token yet, unless we had it stored in a database. Could look into persisting between page visits?
+
             ConnectionState = "Ready To Connect";
             Steps = 1;
-            //how do we know if we are still conected if we have the access token
-            //so we may need to store the access token as a session variable?
-        }
-        public void OnPost()
-        {
-            //test
         }
 
-        //gets activity types so we can find out what ID to use for walking
+        #region Authentication Methods to Connect to FitBit API
+        //Authentication Methods to Connect to FitBit API
+
+
+        //Called from fitbit.com after Authorise is complete. Returned Code is then used to request an access token as part of OAuth flow.
+        public void OnGetAuthorised()
+        {
+
+            //received authorization code, so proceed to get access token.
+            if (!String.IsNullOrEmpty(Code))
+            {
+
+                var jsonString = GetAccessToken();
+                AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
+                this.Authorization = obj;
+                this.ConnectionState = "Connected";
+                this.ConnectionStateCode = 1;
+                this.Steps = 1;
+            }
+            else
+            {
+                this.SystemMessage = "Access Code Not Received";
+            }
+
+        }
+       // This method gets the access token which will be used to access the user's account in the Fitbit API.
+        private string GetAccessToken()
+        {
+            var tokenUrl = "https://api.fitbit.com/oauth2/token";
+            var clientID = Configuration["Fitbit:ClientID"];
+            var clientSecret = Configuration["Fitbit:ClientSecret"];
+
+            using (var client = new HttpClient())
+            {
+
+                var postData = new List<KeyValuePair<string, string>>(){
+                            new KeyValuePair<string, string>("code", Code),
+                            new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                            new KeyValuePair<string, string>("client_id", clientID),
+                            new KeyValuePair<string, string>("client_secret", clientSecret),
+                        };
+
+                var request = new HttpRequestMessage();
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(tokenUrl);
+
+                HttpContent content = new FormUrlEncodedContent(postData);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+                request.Content = content;
+
+                var authenticationString = $"{clientID}:{clientSecret}";
+                var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
+                request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
+
+                var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+
+                var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                return result;
+
+            }
+        }
+
+
+        #endregion
+
+        //gets activity types so we can find out what ID to use for walking. This returns a lookup table that is not specific to a user
         public ContentResult OnPostActivityTypes()
         {
             var url_getActivityTypes = "https://api.fitbit.com/1/activities.json";
@@ -129,8 +193,13 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             }
         }
+        
+        
+       //Creates an Activity  
         public void OnPostCreateActivity()
         {
+            //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
+
             //Create's an activity inside my fitbit account for the day with the input number of steps.
 
             var postCreateNewActivityUrl = "https://api.fitbit.com/1/user/-/activities.json";
@@ -207,7 +276,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         }
-        public ContentResult OnPostDailyActivities([FromForm] AuthorizationResponse test)
+       //Gets All Activities for a specific day. 
+        public ContentResult OnPostDailyActivities()
         {
 
             var getActivitiesUrl = "https://api.fitbit.com/1/user/-/activities/date/2020-07-01.json";
@@ -242,94 +312,51 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             }
         }
-
-        public void OnGetAuthorised()
+        
+       //Returns The Steps for the last 7 days as a time Series 
+        public  void OnPostGetPrevious7DaysSteps([FromForm] AuthorizationResponse test)
         {
-
-            //received authorization code, so proceed to get access token.
-            if (!String.IsNullOrEmpty(Code))
-            {
-
-                var jsonString = GetAccessToken();
-                AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
-                this.Authorization = obj;
-                this.ConnectionState = "Connected";
-                this.ConnectionStateCode = 1;
-                this.Steps = 1;
-            }
-            else
-            {
-                this.SystemMessage = "Access Code Not Received";
-            }
-
-        }
-        private string GetAccessToken()
-        {
-            var tokenUrl = "https://api.fitbit.com/oauth2/token";
-            var clientID = Configuration["Fitbit:ClientID"];
-            var clientSecret = Configuration["Fitbit:ClientSecret"];
+            
+            var today = DateTime.Now.ToString("yyyy-MM-dd");
+            
+            var getStepsUrl = $"https://api.fitbit.com/1/user/-/activities/steps/date/{today}/7d.json";
 
             using (var client = new HttpClient())
             {
 
-                var postData = new List<KeyValuePair<string, string>>(){
-                            new KeyValuePair<string, string>("code", Code),
-                            new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                            new KeyValuePair<string, string>("client_id", clientID),
-                            new KeyValuePair<string, string>("client_secret", clientSecret),
-                        };
-
                 var request = new HttpRequestMessage();
-                request.Method = HttpMethod.Post;
-                request.RequestUri = new Uri(tokenUrl);
+                request.Method = HttpMethod.Get;
+                request.RequestUri = new Uri(getStepsUrl);
 
-                HttpContent content = new FormUrlEncodedContent(postData);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-                request.Content = content;
-
-                var authenticationString = $"{clientID}:{clientSecret}";
-                var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
-                request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
+                request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
 
                 var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                return result;
-
-            }
-        }
-    }
-}
-
-
-
-
-namespace folding_example_LEVEL_1
-{
-    public class folding_example_LEVEL_2
-    {
-        public class folding_example_LEVEL_3{
-
-        }
-
-        public void folding_Example_LEVEL_3(){
-
-            if(true)
-            { // LEVEL 4
-
                 
-            }
+                var serializedresult = JsonSerializer.Deserialize<ActivitiesStepRoot>(result);
 
+                //use json to caluclate the total steps we have done in the last 7 days, as well as the average steps per day we have completed.
+                var averageStepsPerDay = serializedresult.ActivitiesSteps.Average(x => long.Parse(x.value));
+                var totalStepsLast7Days = serializedresult.ActivitiesSteps.Sum(x => long.Parse(x.value));
+
+                var content = $"{averageStepsPerDay} <<< {totalStepsLast7Days}";
+
+                //BELOW USED FOR DEBUGGING JSON
+                // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
+                // return new ContentResult { Content = content , ContentType = "application/json" };
+
+
+            }
         }
 
+
+
     }
-
-
-
-
 }
+
+
+
 
 
 
