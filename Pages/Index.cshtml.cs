@@ -49,7 +49,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         //Step Data
+        [Display(Name = "Last 7 Days Steps")]
         public long? LastSevenDaysSteps {get; set;}
+        [Display(Name = "Last 7 Days Average")]
         public long? LastSevenDaysAverageSteps {get; set;}
 
 
@@ -119,6 +121,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 this.ConnectionState = "Connected";
                 this.ConnectionStateCode = 1;
                 this.Steps = 1;
+
+
+                //Load User Data
+                GetStepData();
+                
             }
             else
             {
@@ -214,7 +221,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var steps = Steps.ToString();
 
-                var today = DateTime.Now.ToString("yyyy-MM-dd");
+                var today = ActivityDate.ToString("yyyy-MM-dd");
                 var postData = new List<KeyValuePair<string, string>>(){
 
                             //17190 - walking 3.0 mph pace
@@ -276,6 +283,10 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                  //return new ContentResult { Content = result, ContentType = "application/json" };
 
                  SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+
+
+                //Update Step Data
+                GetStepData();
 
             }
 

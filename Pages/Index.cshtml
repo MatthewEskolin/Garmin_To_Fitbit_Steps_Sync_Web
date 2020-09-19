@@ -41,16 +41,31 @@
 running or walking, a start time, a total time, and distance in steps.    
 </p>
 <p>This app log the start time as 12:00 AM, and the total time as 12:00:00 I feel this makese sense because our purpose is to capture our daily steps, and steps could be taken at anytime of the day,excluding some time for rest and sleep.</p>
+
+
+
+<div class="form-group row">
+    @Html.LabelFor(x => x.LastSevenDaysAverageSteps,new {@class = "col-sm-2 col-form-label"})
+    <div class="col-sm-6">
+      <input asp-for="LastSevenDaysAverageSteps" type="text" readonly class="form-control-plaintext">
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(x => x.LastSevenDaysSteps,new {@class = "col-sm-2 col-form-label"})
+    <div class="col-sm-6" class="form-cont">
+      <input asp-for="LastSevenDaysSteps" type="text" readonly class="form-control-plaintext">
+    </div>
+</div>
 <div class="form-group row">
     @Html.LabelFor(x => x.ActivityDate,new {@class = "col-sm-2 col-form-label"})
-    <div class="col-sm-10">
-        <select asp-for="ActivityDate" asp-items="Model.AvailableDatesSelect"></select>
+    <div class="col-sm-6">
+        <select asp-for="ActivityDate" asp-items="Model.AvailableDatesSelect" class="form-control"></select>
     </div>
 </div>
 <div class="form-group row">
     @Html.LabelFor(x => x.Steps, new {@class = "col-sm-2 col-form-label"})
-    <div class="col-sm-10">
-        <input asp-for="Steps" type="text" id="inSteps">
+    <div class="col-sm-6">
+        <input asp-for="Steps" type="text" id="inSteps" class="form-control">
     </div>
 </div>
 <input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />

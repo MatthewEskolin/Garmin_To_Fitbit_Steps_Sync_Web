@@ -15,4 +15,6 @@
 * Created README.md
 
 ### 09/18/2020
-* experimenting with activity time series. It would be helpful to get a snapshop of the last 7 days of steps
+* Experimenting with activity time series. It would be helpful to get a snapshop of the last 7 days of steps
+* Hide the Connect to FitBit button if we are already connected and don't show the functionality buttons if we are connected. Once we are connected, show the buttons!
+  
