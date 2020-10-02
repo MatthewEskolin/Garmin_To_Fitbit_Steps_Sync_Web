@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj": {}
+    "C:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj": {}
   },
   "projects": {
-    "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj": {
+    "C:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj",
+        "projectUniqueName": "C:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj",
         "projectName": "Garmin_To_Fitbit_Steps_Sync_Web",
-        "projectPath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj",
+        "projectPath": "C:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\Garmin_To_Fitbit_Steps_Sync_Web.csproj",
         "packagesPath": "C:\\Users\\matte\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\obj\\",
+        "outputPath": "C:\\Users\\matte\\source\\repos\\Garmin_To_Fitbit_Steps_Sync_Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

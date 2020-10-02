@@ -18,7 +18,7 @@
     "Garmin_To_Fitbit_Steps_Sync_Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:80;http://localhost:8080",
+      "applicationUrl": "https://localhost;http://localhost",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

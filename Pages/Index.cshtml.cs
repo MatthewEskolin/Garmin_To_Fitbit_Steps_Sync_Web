@@ -227,7 +227,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                             //17190 - walking 3.0 mph pace
                             new KeyValuePair<string, string>("activityId", "17190"),
                             new KeyValuePair<string, string>("startTime", "12:00"),
-                            new KeyValuePair<string, string>("durationMillis", "86399999"),
+                            new KeyValuePair<string, string>("durationMillis", "43199999"),
                             new KeyValuePair<string, string>("date", today),
                             new KeyValuePair<string, string>("distanceUnit", "steps"),
                             new KeyValuePair<string, string>("distance", steps),
@@ -250,7 +250,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
 
-                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK)
+                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK || responseResult.StatusCode != System.Net.HttpStatusCode.Created)
                 {
                     //attempt to deserialize error state
                     try{
