@@ -4,6 +4,7 @@
 ## Development Roadmap
 * Need to have confidence in this app to input data into FitBit Correctly so that we don't ever have to login on the fitbit homepage
 * \[Useability\] Only Show the Add Activity and other buttons when we are already connected to FitBit.
+* Need to implement Azure keyvault - Currently Azure WebApp cannot access app secrets
 
 ## Possible Features
 * Make it visible to user if activities have been input for the previous days, so we don't forget or create a duplicate entry
