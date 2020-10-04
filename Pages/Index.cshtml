@@ -8,10 +8,12 @@
 <style type="text/css">
 .connectionState.connected{
     color:green;
+    font-weight:bold;
 }
 .connectionState.other
 {
     color:initial;
+    font-weight:bold;
 
 }
 .hide{
@@ -44,6 +46,37 @@ running or walking, a start time, a total time, and distance in steps.
 
 
 
+
+@* Only show this button if we are not connected *@
+@* TODO only show this below if we are not connected *@
+
+@* Connection Indicator *@
+@* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
+<div>
+@{
+    var spnClass = "connectionState";
+    if(@Model.ConnectionStateCode == 1){
+        spnClass = "connectionState connected";
+    }
+    else
+    {
+        spnClass = "connectionState other";
+    }
+}
+@Html.LabelFor(x => x.ConnectionState):
+<label class="@spnClass">@Html.DisplayFor(x => x.ConnectionState)</label>
+
+
+@if(!@Model.IsConnected)
+{
+<div is-visible="!@Model.IsConnected">
+<a class="btn btn-primary" href="@Model.AuthorizationUrl">Connect to FitBit</a>
+</div>
+}
+
+</div>
+
+
 <div class="form-group row">
     @Html.LabelFor(x => x.LastSevenDaysAverageSteps,new {@class = "col-sm-2 col-form-label"})
     <div class="col-sm-6">
@@ -68,34 +101,11 @@ running or walking, a start time, a total time, and distance in steps.
         <input asp-for="Steps" type="text" id="inSteps" class="form-control">
     </div>
 </div>
-<input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Create New Activity" type="submit" />
-<a class="btn btn-primary" href="@Model.AuthorizationUrl">Connect to FitBit</a>
+<input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Log Steps" type="submit" />
+
 <br />
-
-@* Only show this button if we are not connected *@
-@* TODO only show this below if we are not connected *@
-
-@* Connection Indicator *@
-@* Can we show the user's picture, name, so they can feel confident that they are accessing the correct acount?*@
-<div>
-@{
-    var spnClass = "connectionState";
-    if(@Model.ConnectionStateCode == 1){
-        spnClass = "connectionState connected";
-    }
-    else
-    {
-        spnClass = "connectionState other";
-    }
-}
-@Html.LabelFor(x => x.ConnectionState):
-@Html.DisplayFor(x => x.ConnectionState, new {@class = spnClass})
 <br />
 @Html.DisplayFor(x => x.SystemMessage)
-
-</div>
-
-
 
 
       </div>

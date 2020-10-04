@@ -10256,6 +10256,37 @@
         }
       },
       {
+        "HashCode": -1622734171,
+        "Kind": "ITagHelper",
+        "Name": "Garmin_To_Fitbit_Steps_Sync_Web.Utilities.VisibilityTagHelper",
+        "AssemblyName": "Garmin_To_Fitbit_Steps_Sync_Web",
+        "CaseSensitive": false,
+        "TagMatchingRules": [
+          {
+            "TagName": "*",
+            "Attributes": [
+              {
+                "Name": "is-visible"
+              }
+            ]
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "ITagHelper",
+            "Name": "is-visible",
+            "TypeName": "System.Boolean",
+            "Metadata": {
+              "Common.PropertyName": "IsVisible"
+            }
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "ITagHelper",
+          "Common.TypeName": "Garmin_To_Fitbit_Steps_Sync_Web.Utilities.VisibilityTagHelper"
+        }
+      },
+      {
         "HashCode": 1226202186,
         "Kind": "ITagHelper",
         "Name": "Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper",

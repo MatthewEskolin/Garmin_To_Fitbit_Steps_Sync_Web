@@ -43,6 +43,13 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         public int ConnectionStateCode { get; set; }
 
 
+        public bool IsConnected{
+            get{
+                return ConnectionStateCode== 1;
+            }
+        }
+
+
         [Display(Name = "Activity Date")]
         [BindProperty]
         public DateTime ActivityDate {get; set;}
@@ -79,7 +86,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             //TODAY - YESTERDAY - DAYBEFOREYESTERDAY
             var today = DateTime.Now.Date;
             var yesterday = today.AddDays(-1);
-            var daybeforeyesterady = today.AddDays(-2);
+            var daybeforeyesterday = today.AddDays(-2);
+            var daysMinus3 = today.AddDays(-3);
+            var daysMinus4 = today.AddDays(-4);
+            var daysMinus5 = today.AddDays(-5);
+            var daysMinus6 = today.AddDays(-6);
+            var daysMinus7 = today.AddDays(-7);
 
 
             // AvailableDates = new List<DateTime>(){today,yesterday, daybeforeyesterady};
@@ -88,7 +100,13 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 new SelectListItem(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
                 new SelectListItem(){Text = $"Yesterday - {yesterday.ToShortDateString()}", Value = yesterday.ToShortDateString()},
-                new SelectListItem(){Text = $"Anteayer - {daybeforeyesterady.ToShortDateString()}", Value = daybeforeyesterady.ToShortDateString()}
+
+                new SelectListItem(){Text = $"Anteayer - {daybeforeyesterday.ToShortDateString()}", Value = daybeforeyesterday.ToShortDateString()},
+                new SelectListItem(){Text = $"{daysMinus3.ToShortDateString()}", Value = daysMinus3.ToShortDateString()},
+                new SelectListItem(){Text = $"{daysMinus4.ToShortDateString()}", Value = daysMinus4.ToShortDateString()},
+                new SelectListItem(){Text = $"{daysMinus5.ToShortDateString()}", Value = daysMinus5.ToShortDateString()},
+                new SelectListItem(){Text = $"{daysMinus6.ToShortDateString()}", Value = daysMinus6.ToShortDateString()},
+                new SelectListItem(){Text = $"{daysMinus7.ToShortDateString()}", Value = daysMinus7.ToShortDateString()}
 
 
             };
@@ -208,7 +226,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         
         
        //Creates an Activity  
-        public void OnPostCreateActivity()
+        public void  OnPostCreateActivity()
         {
             //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
 
@@ -249,8 +267,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-
-                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK || responseResult.StatusCode != System.Net.HttpStatusCode.Created)
+string jf = string.Empty;
+                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
                 {
                     //attempt to deserialize error state
                     try{
@@ -269,20 +287,37 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 else
                 {
                     //Should be an activity root returned
-                    var serializedresult = JsonSerializer.Deserialize<ActivityTypeRoot>(result);
-                    string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
+                    var serializedresult = JsonSerializer.Deserialize<ActivityLogRoot>(result);
+                    string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true }); jf=jsonFormatted;
+
 
                 }
 
                 //*Json Can be Deserialied and then Serialized again in order to format with with indents for readabiility
-                // var serializedresult = JsonSerializer.Deserialize<Root>(result);
+                // var serializedresult = JsonSerializer.Deserialize<ActivityTypeRoot>(result);
                 // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
                 // var steps = serializedresult.summary.steps;
 
                 //*Uncomment below lineto get result returned from API
-                 //return new ContentResult { Content = result, ContentType = "application/json" };
+                //  return new ContentResult { Content = jf, ContentType = "application/json" };
 
-                 SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+
+
+                if(responseResult.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    //new activity record created
+                    SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+
+                }
+                else
+                {
+                    //System.Net.HttpStatusCode.OK
+                    
+                    //no data changed -> not sure why this happens, it could be that the activity overlaps with an existing activity.
+                    SystemMessage = $"No Steps Added. It is possible this activity overlaps with an activity that already exists.";
+
+                }
+
 
 
                 //Update Step Data
