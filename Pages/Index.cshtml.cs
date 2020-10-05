@@ -43,6 +43,16 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         public int ConnectionStateCode { get; set; }
 
 
+        public bool IsConnected{
+            get{
+                return ConnectionStateCode== 1;
+            }
+            set{
+                IsConnected = value;
+            }
+        }
+
+
         [Display(Name = "Activity Date")]
         [BindProperty]
         public DateTime ActivityDate {get; set;}
