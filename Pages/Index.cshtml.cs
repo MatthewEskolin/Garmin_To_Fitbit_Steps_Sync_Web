@@ -47,6 +47,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             get{
                 return ConnectionStateCode== 1;
             }
+            set{
+                IsConnected = value;
+            }
         }
 
 
