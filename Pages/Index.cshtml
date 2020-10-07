@@ -2,7 +2,7 @@
 @* @page  *@
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "";
 }
 
 <style type="text/css">
@@ -144,13 +144,13 @@ running or walking, a start time, a total time, and distance in steps.
     </div>
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
       <div class="card-body">
-
+          Get Daily Activities
+        <input class="link-button" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
 
 
 
 
 <h2 style="display:none;">Development Buttons - used for debugging</h3>
-<input class="link-button hide" asp-page-handler="DailyActivities" Value="Get Activities" type="submit" />
 <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
 <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
 

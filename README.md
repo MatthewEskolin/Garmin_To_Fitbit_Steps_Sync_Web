@@ -6,6 +6,8 @@
 * \[Useability\] Only Show the Add Activity and other buttons when we are already connected to FitBit.
 * Need to implement Azure keyvault - Currently Azure WebApp cannot access app secrets
 * Consider trying to use Cloudfare for SSL https://www.troyhunt.com/how-to-get-your-ssl-for-free-on-shared/
+* *Add Tip Jar
+* 
 
 ## Possible Features
 * Make it visible to user if activities have been input for the previous days, so we don't forget or create a duplicate entry
