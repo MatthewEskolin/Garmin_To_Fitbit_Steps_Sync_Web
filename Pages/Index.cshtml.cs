@@ -260,7 +260,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
 
-                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
+                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK || responseResult.StatusCode != System.Net.HttpStatusCode.Created)
                 {
                     //attempt to deserialize error state
                     try{
