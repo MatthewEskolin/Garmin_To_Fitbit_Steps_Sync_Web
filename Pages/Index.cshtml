@@ -76,6 +76,9 @@ running or walking, a start time, a total time, and distance in steps.
 
 </div>
 
+@if(Model.IsConnected)
+{
+
 
 <div class="form-group row">
     @Html.LabelFor(x => x.LastSevenDaysAverageSteps,new {@class = "col-sm-2 col-form-label"})
@@ -104,6 +107,7 @@ running or walking, a start time, a total time, and distance in steps.
 <input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Log Steps" type="submit" />
 
 <br />
+}
 <br />
 @Html.DisplayFor(x => x.SystemMessage)
 

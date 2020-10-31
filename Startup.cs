@@ -8,10 +8,13 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,IWebHostEnvironment env)
         {
             Configuration = configuration;
+            CurrentEnvironment = env;
+
         }
+        private Microsoft.AspNetCore.Hosting.IWebHostEnvironment CurrentEnvironment { get; set; } 
 
         public IConfiguration Configuration { get; }
 
@@ -19,6 +22,22 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            //will need to use an actual distributed memory cache if we want to expand to multiple servers.
+            services.AddDistributedMemoryCache();
+
+
+            //for now only add insights in production
+            var test = CurrentEnvironment.IsDevelopment();
+
+
+            if(CurrentEnvironment.IsProduction())
+            {
+                // The following line enables Application Insights telemetry collection.
+            }
+                services.AddApplicationInsightsTelemetry(Configuration);
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +55,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
                 app.UseHttpsRedirection();
             }
 
+            app.UseSession();
+            
             app.UseStaticFiles();
 
             app.UseRouting();

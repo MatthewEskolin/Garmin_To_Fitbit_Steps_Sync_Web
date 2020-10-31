@@ -1,13 +1,8 @@
 # Garmin_To_Fitbit_Steps_Sync_Web
 
-
 ## Development Roadmap
-* Need to have confidence in this app to input data into FitBit Correctly so that we don't ever have to login on the fitbit homepage
-* \[Useability\] Only Show the Add Activity and other buttons when we are already connected to FitBit.
-* Need to implement Azure keyvault - Currently Azure WebApp cannot access app secrets
-* Consider trying to use Cloudfare for SSL https://www.troyhunt.com/how-to-get-your-ssl-for-free-on-shared/
-* *Add Tip Jar
-* 
+* Add Tip Jar
+* Check to make sure that secrets aren't in the repo 
 
 ## Possible Features
 * Make it visible to user if activities have been input for the previous days, so we don't forget or create a duplicate entry
@@ -15,6 +10,9 @@
 
 ## Recently Completed Features
 * Give us our average steps for the last 7 days here in the APP
+* Need to have confidence in this app to input data into FitBit Correctly so that we don't ever have to login on the fitbit homepage
+* Need to implement Azure keyvault - Currently Azure WebApp cannot access app secrets
+* \[Useability\] Only Show the Add Activity and other buttons when we are already connected to FitBit.
 
 ### 08/12/2020
 adding a drop-down to select the day for the activity. We usually input our steps for the previous day, so this will be the default. We will also provide an option to put in
@@ -29,3 +27,7 @@ the day before yesterday's step count.
 
 ### 10/09/2020
 * We keep having to reconnect to the API after every request. Find a way to keep token between requets
+
+### 10/25/2020
+* Implement logging to check for successful logins
+  

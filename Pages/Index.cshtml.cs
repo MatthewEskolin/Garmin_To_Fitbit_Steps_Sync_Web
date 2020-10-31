@@ -7,11 +7,13 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.ApplicationInsights;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
@@ -21,15 +23,43 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         #region Properties
 
         //Bound Properties
-        [FromForm]
-        [BindProperty]
-        public AuthorizationResponse Authorization { get; set; }
+        // [FromForm]
+        // [BindProperty]
+        public AuthorizationResponse Authorization
+        {
+            get
+            {
+
+                byte[] authorizationResponse = null;
+                bool inSession = HttpContext.Session.TryGetValue("AuthorizationResponse", out authorizationResponse);
+                if (inSession)
+                {
+                        string json = System.Text.Encoding.UTF8.GetString(authorizationResponse);
+                        var authObject = JsonSerializer.Deserialize<AuthorizationResponse>(json);
+
+                        return authObject;
+
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            set
+            {
+                string json = JsonSerializer.Serialize(value, new JsonSerializerOptions() { WriteIndented = true });
+                byte[] serializedResult = System.Text.Encoding.UTF8.GetBytes(json);
+
+                HttpContext.Session.Set("AuthorizationResponse", serializedResult);
+            }
+        }
 
         [BindProperty]
-        public int Steps {get; set;}
+        public int Steps { get; set; }
 
         ///Authoriziation Code from Auth flow
-        [BindProperty(SupportsGet=true)] 
+        [BindProperty(SupportsGet = true)]
         public string Code { get; set; }
 
         //display connection state to the user
@@ -43,9 +73,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         public int ConnectionStateCode { get; set; }
 
 
-        public bool IsConnected{
-            get{
-                return ConnectionStateCode== 1;
+        public bool IsConnected
+        {
+            get
+            {
+                return ConnectionStateCode == 1;
             }
 
         }
@@ -53,29 +85,39 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         [Display(Name = "Activity Date")]
         [BindProperty]
-        public DateTime ActivityDate {get; set;}
+        public DateTime ActivityDate { get; set; }
 
 
         //Step Data
         [Display(Name = "Last 7 Days Steps")]
-        public long? LastSevenDaysSteps {get; set;}
+        public long? LastSevenDaysSteps { get; set; }
         [Display(Name = "Last 7 Days Average")]
-        public long? LastSevenDaysAverageSteps {get; set;}
+        public long? LastSevenDaysAverageSteps { get; set; }
 
 
         //Properties which are not bound
 
+
+
         private readonly ILogger<IndexModel> _logger;
+
+        private TelemetryClient telemetry;
+
         private IConfiguration Configuration { get; set; }
 
-        public List<SelectListItem> AvailableDatesSelect { get;  set; }
+        public List<SelectListItem> AvailableDatesSelect { get; set; }
         //System messages and debugging
         public string SystemMessage { get; set; }
         public string AuthorizationUrl { get; set; }
         #endregion
 
-        public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
+        public IndexModel(ILogger<IndexModel> logger, IConfiguration config,TelemetryClient tel)
         {
+
+            telemetry = tel;
+            telemetry.TrackTrace("Trace Test");
+
+
             _logger = logger;
             Configuration = config;
 
@@ -132,9 +174,16 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             if (!String.IsNullOrEmpty(Code))
             {
 
-                var jsonString = GetAccessToken();
-                AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
-                this.Authorization = obj;
+                //only get an access token if we don't already have an authoriziation response
+
+                if (this.Authorization == null)
+                {
+                    var jsonString = GetAccessToken();
+                    AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
+                    this.Authorization = obj;
+                }
+
+
                 this.ConnectionState = "Connected";
                 this.ConnectionStateCode = 1;
                 this.Steps = 1;
@@ -142,7 +191,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 //Load User Data
                 GetStepData();
-                
+
             }
             else
             {
@@ -150,7 +199,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             }
 
         }
-       // This method gets the access token which will be used to access the user's account in the Fitbit API.
+        // This method gets the access token which will be used to access the user's account in the Fitbit API.
         private string GetAccessToken()
         {
             var tokenUrl = "https://api.fitbit.com/oauth2/token";
@@ -222,9 +271,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             }
         }
-        
-        
-       //Creates an Activity  
+
+
+        //Creates an Activity  
         public void OnPostCreateActivity()
         {
             //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
@@ -268,10 +317,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 string jf = string.Empty;
 
-                if(responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
+                if (responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
                 {
                     //attempt to deserialize error state
-                    try{
+                    try
+                    {
 
                         var serializedresult = JsonSerializer.Deserialize<ErrorRoot>(result);
                         SystemMessage = serializedresult.errors[0].message;
@@ -298,8 +348,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 // var steps = serializedresult.summary.steps;
 
                 //*Uncomment below lineto get result returned from API
-                 //return new ContentResult { Content = result, ContentType = "application/json" };
-                if(responseResult.StatusCode == System.Net.HttpStatusCode.Created)
+                //return new ContentResult { Content = result, ContentType = "application/json" };
+                if (responseResult.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     //new activity record created
                     SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
@@ -316,7 +366,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
 
-                 SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+                SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
 
 
                 //Update Step Data
@@ -326,7 +376,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         }
-       //Gets All Activities for a specific day. 
+        //Gets All Activities for a specific day. 
         public ContentResult OnPostDailyActivities()
         {
 
@@ -349,7 +399,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                
+
 
                 var serializedresult = JsonSerializer.Deserialize<ActivityTypeRoot>(result);
 
@@ -362,13 +412,13 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             }
         }
-        
-       //Returns The Steps for the last 7 days as a time Series 
-        public  void OnPostGetPrevious7DaysSteps([FromForm] AuthorizationResponse test)
+
+        //Returns The Steps for the last 7 days as a time Series 
+        public void OnPostGetPrevious7DaysSteps([FromForm] AuthorizationResponse test)
         {
-            
+
             var today = DateTime.Now.ToString("yyyy-MM-dd");
-            
+
             var getStepsUrl = $"https://api.fitbit.com/1/user/-/activities/steps/date/{today}/7d.json";
 
             using (var client = new HttpClient())
@@ -383,7 +433,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                
+
                 var serializedresult = JsonSerializer.Deserialize<ActivitiesStepRoot>(result);
 
                 //use json to caluclate the total steps we have done in the last 7 days, as well as the average steps per day we have completed.
@@ -401,18 +451,20 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
 
         //This method get's step data for the current logged in user, and is not triggered from a post or get
-        public void GetStepData(){
+        public void GetStepData()
+        {
 
             var today = DateTime.Now.ToString("yyyy-MM-dd");
 
             using (var client = new HttpClient())
             {
 
-                var request = new HttpRequestMessage(){
+                var request = new HttpRequestMessage()
+                {
 
-                    Method =HttpMethod.Get,
+                    Method = HttpMethod.Get,
                     RequestUri = new Uri($"https://api.fitbit.com/1/user/-/activities/steps/date/{today}/7d.json")
- 
+
                 };
 
 
@@ -427,7 +479,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 this.LastSevenDaysAverageSteps = (long)averageStepsPerDay;
                 this.LastSevenDaysSteps = totalStepsLast7Days;
-        }
+            }
 
 
 

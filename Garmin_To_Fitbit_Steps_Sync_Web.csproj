@@ -5,8 +5,10 @@
     <UserSecretsId>ffc61e20-8adc-434e-9628-98b790995ef6</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
       <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.4.0" />
       <PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.5" />
       <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
   </ItemGroup>
 </Project>
