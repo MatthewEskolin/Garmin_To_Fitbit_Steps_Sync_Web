@@ -31,3 +31,5 @@ the day before yesterday's step count.
 ### 10/25/2020
 * Implement logging to check for successful logins
   
+### 11/01/2020
+* find a way in Azure to ping our site to make sure it is still up and running
