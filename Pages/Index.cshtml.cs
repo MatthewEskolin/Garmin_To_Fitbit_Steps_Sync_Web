@@ -115,7 +115,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         {
 
             telemetry = tel;
-            telemetry.TrackTrace("Trace Test");
+            telemetry.TrackPageView("Index");
+       
 
 
             _logger = logger;
@@ -188,6 +189,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 this.ConnectionStateCode = 1;
                 this.Steps = 1;
 
+                //This section of codes assumes code will be valid and that an access code is returned. Might be good to validate this.
+                telemetry.TrackEvent("User Logged In To Fitbit");
 
                 //Load User Data
                 GetStepData();
@@ -365,7 +368,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 }
 
 
-
+                telemetry.TrackEvent("Steps Added", new Dictionary<string,string>(){{"steps",Steps.ToString()},{"ActivityDate",this.ActivityDate.ToShortDateString()}});
                 SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
 
 

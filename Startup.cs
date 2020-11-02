@@ -24,20 +24,18 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             services.AddRazorPages();
 
             //will need to use an actual distributed memory cache if we want to expand to multiple servers.
+            services.AddSession();
             services.AddDistributedMemoryCache();
-
-
-            //for now only add insights in production
-            var test = CurrentEnvironment.IsDevelopment();
-
 
             if(CurrentEnvironment.IsProduction())
             {
-                // The following line enables Application Insights telemetry collection.
+                //Put Production Only Configuration here.
             }
-                services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddSession();
+            // The following line enables Application Insights telemetry collection.
+            services.AddApplicationInsightsTelemetry(Configuration);
+
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
