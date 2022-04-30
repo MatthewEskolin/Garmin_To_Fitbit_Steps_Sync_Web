@@ -23,15 +23,24 @@ namespace GarminConnectScraper // Note: actual namespace depends on the project 
 
             //gauth - widget - frame - gauth - widget'
 
-            var elementHandle = page.QuerySelectorAllAsync("#gauth-widget-frame-gauth-widget");
+            var elementHandle = page.QuerySelectorAsync("#gauth-widget-frame-gauth-widget");
 
-        //var frame = await elementHandle.
+            var frame = await elementHandle.Result.ContentFrameAsync();
 
-        //Resources for Next Time
+            await frame.TypeAsync("#username", "myusername");
+            await frame.TypeAsync("#username", "myusername");
 
-        //https://stackoverflow.com/questions/65049531/puppeteer-iframe-contentframe-returns-null
-        //C:\src\gh\garmin-connect-scraper\lib\main.js
-        //https://www.puppeteersharp.com/examples/index.html
+
+
+
+
+            //var frame = await elementHandle.
+
+            //Resources for Next Time
+
+            //https://stackoverflow.com/questions/65049531/puppeteer-iframe-contentframe-returns-null
+            //C:\src\gh\garmin-connect-scraper\lib\main.js
+            //https://www.puppeteersharp.com/examples/index.html
 
 
 
