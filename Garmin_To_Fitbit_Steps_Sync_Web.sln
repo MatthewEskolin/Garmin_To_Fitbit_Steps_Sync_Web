@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garmin_To_Fitbit_Steps_Sync_Web", "Garmin_To_Fitbit_Steps_Sync_Web.csproj", "{CF2B9816-6DDB-43B3-8869-65CFF7F05D1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarminConnectScraper", "GarminConnectScraper\GarminConnectScraper.csproj", "{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CF2B9816-6DDB-43B3-8869-65CFF7F05D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF2B9816-6DDB-43B3-8869-65CFF7F05D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF2B9816-6DDB-43B3-8869-65CFF7F05D1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
