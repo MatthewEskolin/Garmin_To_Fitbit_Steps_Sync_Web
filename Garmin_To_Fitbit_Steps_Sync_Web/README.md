@@ -1,5 +1,22 @@
 # Garmin_To_Fitbit_Steps_Sync_Web
 
+## Project Resources
+
+### Puppeteer
+https://stackoverflow.com/questions/65049531/puppeteer-iframe-contentframe-returns-null
+https://www.puppeteersharp.com/examples/index.html
+
+### Garmin
+C:\src\gh\garmin-connect-scraper\lib\main.js
+
+### User Secrets / Configuration in a .NET 6 Consoel App
+https://makolyte.com/how-to-add-user-secrets-in-a-dotnetcore-console-app/
+https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration
+
+### Using a Generic Host
+https://dfederm.com/building-a-console-app-with-.net-generic-host/
+
+
 ## Development Roadmap
 * Add Tip Jar
 * Check to make sure that secrets aren't in the repo 
