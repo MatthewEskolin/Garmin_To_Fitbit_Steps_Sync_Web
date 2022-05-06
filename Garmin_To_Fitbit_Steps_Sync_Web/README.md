@@ -47,4 +47,12 @@ the day before yesterday's step count.
 
 ### 10/25/2020
 * Implement logging to check for successful logins
-  
+ 
+### 05/01/2022
+* Next Time, get the path right for the steps dev in garmin connect , and get it writing to the text file correctly.
+
+### 05/06/2022
+* Get the selector correct for the Garmin Connect web scrape
+
+
+

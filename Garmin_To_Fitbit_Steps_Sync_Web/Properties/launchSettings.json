@@ -1,9 +1,9 @@
 ﻿{
   "iisSettings": {
     "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:54712",
+      "applicationUrl": "http://localhost:54712;https://fitbitapitools.azurewebsites.net/",
       "sslPort": 44357
     }
   },
@@ -18,7 +18,7 @@
     "Garmin_To_Fitbit_Steps_Sync_Web": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost;http://localhost",
+      "applicationUrl": "https://localhost;http://localhost;https://fitbitapitools.azurewebsites.net/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
