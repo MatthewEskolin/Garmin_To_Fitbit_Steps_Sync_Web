@@ -4,16 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.ApplicationInsights;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 {
@@ -22,9 +24,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         //Public Properites
         #region Properties
 
-        //Bound Properties
-        // [FromForm]
-        // [BindProperty]
         public AuthorizationResponse Authorization
         {
             get
@@ -55,14 +54,21 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             }
         }
 
+        /// <summary>
+        /// Number of Steps 
+        /// </summary>
         [BindProperty]
         public int Steps { get; set; }
 
-        ///Authoriziation Code from Auth flow
+        /// <summary>
+        /// Authorization Code which is used to obtain access token
+        /// </summary>
         [BindProperty(SupportsGet = true)]
         public string Code { get; set; }
 
-        //display connection state to the user
+        /// <summary>
+        /// Display value to show if we user is connected to the FitBit API.
+        /// </summary>
         [BindProperty]
         [Display(Name = "Connection State")]
         public string ConnectionState { get; set; }
@@ -72,21 +78,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         [BindProperty]
         public int ConnectionStateCode { get; set; }
 
-
-        public bool IsConnected
-        {
-            get
-            {
-                return ConnectionStateCode == 1;
-            }
-
-        }
+        public bool IsConnected => ConnectionStateCode == 1;
 
 
         [Display(Name = "Activity Date")]
         [BindProperty]
         public DateTime ActivityDate { get; set; }
-
 
         //Step Data
         [Display(Name = "Last 7 Days Steps")]
@@ -96,8 +93,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         //Properties which are not bound
-
-
 
         private readonly ILogger<IndexModel> _logger;
 
@@ -116,8 +111,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             telemetry = tel;
             telemetry.TrackPageView("Index");
-       
-
 
             _logger = logger;
             Configuration = config;
@@ -143,7 +136,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 new SelectListItem(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
                 new SelectListItem(){Text = $"Yesterday - {yesterday.ToShortDateString()}", Value = yesterday.ToShortDateString()},
-                new SelectListItem(){Text = $"Anteayer - {daybeforeyesterday.ToShortDateString()}", Value = daybeforeyesterday.ToShortDateString()},
+                new SelectListItem(){Text = $"{daybeforeyesterday.ToShortDateString()}", Value = daybeforeyesterday.ToShortDateString()},
                 new SelectListItem(){Text = $"{daysMinus3.ToShortDateString()}", Value = daysMinus3.ToShortDateString()},
                 new SelectListItem(){Text = $"{daysMinus4.ToShortDateString()}", Value = daysMinus4.ToShortDateString()},
                 new SelectListItem(){Text = $"{daysMinus5.ToShortDateString()}", Value = daysMinus5.ToShortDateString()},
@@ -239,6 +232,51 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 return result;
 
             }
+        }
+
+        public void OnPostGetRefreshToken()
+        {
+            var tokenUrl = "https://api.fitbit.com/oauth2/token";
+
+            using (var client = new HttpClient())
+            {
+
+                var postData = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("refresh_token", Authorization.refresh_token),
+                    new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                };
+
+                var request = new HttpRequestMessage();
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(tokenUrl);
+
+                HttpContent content = new FormUrlEncodedContent(postData);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+                request.Content = content;
+
+
+                var clientID = Configuration["Fitbit:ClientID"];
+                var clientSecret = Configuration["Fitbit:ClientSecret"];
+                var authenticationString = $"{clientID}:{clientSecret}";
+                var base64EncodedAuthenticationString =
+                    Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
+                request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
+
+                var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+
+                var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                var json = JObject.Parse(result);
+
+
+
+
+
+                //return new ContentResult {Content = result, ContentType = "application/json"};
+            }
+
         }
 
 

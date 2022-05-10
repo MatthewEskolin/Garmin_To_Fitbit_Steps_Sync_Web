@@ -23,7 +23,11 @@
 
 <form method="POST">
 
-<div class="accordion" id="accordionExample">
+    <development>
+        @Environment.MachineName[0]
+    </development>    
+
+    <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
       <h2 class="mb-0">
@@ -157,7 +161,8 @@ running or walking, a start time, a total time, and distance in steps.
 
 <h2 style="display:none;">Development Buttons - used for debugging</h2>
 <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
-<input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
+          <input class="link-button hide" asp-page-handler="ActivityTypes" Value="Get Activity Types" type="submit" />
+          <input class="" asp-page-handler="GetRefreshToken" Value="Get Refresh Token" type="submit" />
 
 
       </div>

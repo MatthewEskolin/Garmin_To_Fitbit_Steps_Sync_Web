@@ -16,6 +16,8 @@ https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration
 ### Using a Generic Host
 https://dfederm.com/building-a-console-app-with-.net-generic-host/
 
+### FitBit API Docs
+https://dev.fitbit.com/build/reference/web-api/
 
 ## Development Roadmap
 * Add Tip Jar
@@ -53,6 +55,21 @@ the day before yesterday's step count.
 
 ### 05/06/2022
 * Get the selector correct for the Garmin Connect web scrape
+
+### 05/07/2022
+* Run the Garmin Step Reader successfully in headless mode
+
+### 05/09/2022
+* Start planning how to push data automatically to FitBit
+Need to change FitBit API Redirect back to 
+https://fitbitapitools.azurewebsites.net/authorised
+https://dev.fitbit.com/apps/details/22BNTM
+
+* Next time need to come back and build the Create Steps in the FitBitAPI class... 
+* We will call this from the WebScraper with the days steps
+* We may initialized it with the hard-coded access_code perhpas in user-secret vault - that is our next step and our next stream.
+
+
 
 
 

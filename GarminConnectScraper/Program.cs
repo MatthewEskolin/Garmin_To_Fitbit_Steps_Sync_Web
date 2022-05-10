@@ -24,7 +24,9 @@ namespace GarminConnectScraper // Note: actual namespace depends on the project 
             //Log Yesterdays Steps
             var sr = new StepReader();
 
-            await sr.GetYesterdaysSteps(config);
+            var result = await sr.GetYesterdaysSteps(config);
+            
+            Debug.WriteLine($"Steps = {result}");
 
             //Send steps to the Fitbit API
         }
