@@ -417,7 +417,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         }
-        //Gets All Activities for a specific day. 
+
+        /// <summary>
+        /// Get All Activities by day
+        /// </summary>
+        /// <returns></returns>
         public ContentResult OnPostDailyActivities()
         {
 
@@ -454,8 +458,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             }
         }
 
-        //Returns The Steps for the last 7 days as a time Series 
-        public void OnPostGetPrevious7DaysSteps([FromForm] AuthorizationResponse test)
+
+
+        /// <summary>
+        ///Returns The Steps for the last 7 days as a time Series 
+        /// </summary>
+        public void OnPostGetPrevious7DaysSteps()
         {
 
             var today = DateTime.Now.ToString("yyyy-MM-dd");

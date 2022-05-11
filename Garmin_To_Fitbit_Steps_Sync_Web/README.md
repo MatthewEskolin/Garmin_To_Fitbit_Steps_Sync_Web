@@ -69,6 +69,10 @@ https://dev.fitbit.com/apps/details/22BNTM
 * We will call this from the WebScraper with the days steps
 * We may initialized it with the hard-coded access_code perhpas in user-secret vault - that is our next step and our next stream.
 
+### 05/10/2022
+* The GarminConnectScraper app should be added as a Scheduled Task in Windows
+* Let's build and test the new api call from the scraper
+
 
 
 
