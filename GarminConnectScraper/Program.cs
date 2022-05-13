@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using PuppeteerSharp;
 
-namespace GarminConnectScraper // Note: actual namespace depends on the project name.
+namespace GarminConnectScraper 
 {
     internal class Program
     {
