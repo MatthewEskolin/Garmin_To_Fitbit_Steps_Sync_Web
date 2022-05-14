@@ -74,6 +74,7 @@ https://dev.fitbit.com/apps/details/22BNTM
 * Let's build and test the new api call from the scraper
 
 
-
+### 
+* Make a call to the API from the Scraper App
 
 

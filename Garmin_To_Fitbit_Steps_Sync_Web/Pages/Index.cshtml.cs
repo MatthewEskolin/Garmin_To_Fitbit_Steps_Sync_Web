@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -202,36 +203,40 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             var clientID = Configuration["Fitbit:ClientID"];
             var clientSecret = Configuration["Fitbit:ClientSecret"];
 
-            using (var client = new HttpClient())
+            using var client = new HttpClient(handler: new HttpClientHandler
             {
+                // 8888 = Fiddler standard port
+                Proxy = new WebProxy(new Uri("http://localhost:8888")),
+                UseProxy = true
+            });
 
-                var postData = new List<KeyValuePair<string, string>>(){
-                            new KeyValuePair<string, string>("code", Code),
-                            new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                            new KeyValuePair<string, string>("client_id", clientID),
-                            new KeyValuePair<string, string>("client_secret", clientSecret),
-                        };
 
-                var request = new HttpRequestMessage();
-                request.Method = HttpMethod.Post;
-                request.RequestUri = new Uri(tokenUrl);
 
-                HttpContent content = new FormUrlEncodedContent(postData);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+            var postData = new List<KeyValuePair<string, string>>(){
+                new KeyValuePair<string, string>("code", Code),
+                new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                new KeyValuePair<string, string>("client_id", clientID),
+                new KeyValuePair<string, string>("client_secret", clientSecret),
+            };
 
-                request.Content = content;
+            var request = new HttpRequestMessage();
+            request.Method = HttpMethod.Post;
+            request.RequestUri = new Uri(tokenUrl);
 
-                var authenticationString = $"{clientID}:{clientSecret}";
-                var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
-                request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
+            HttpContent content = new FormUrlEncodedContent(postData);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
-                var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+            request.Content = content;
 
-                var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var authenticationString = $"{clientID}:{clientSecret}";
+            var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(authenticationString));
+            request.Headers.Add("Authorization", "Basic " + base64EncodedAuthenticationString);
 
-                return result;
+            var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
-            }
+            var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+            return result;
         }
 
         public void OnPostGetRefreshToken()

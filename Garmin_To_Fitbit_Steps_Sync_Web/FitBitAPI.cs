@@ -11,11 +11,15 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 {
     public class FitBitAPI
     {
-        public FitBitAPI()
+        public FitBitAPI(AuthorizationResponse auth)
         {
         }
 
         public AuthorizationResponse AuthorizationInfo { get; set; }
+
+
+        public bool ErrorFlag { get; set; }
+        public string ErrorMessage { get; set; } = string.Empty;
 
 
         public async void CreateDailySteps(DateTime activitydate, long steps)
@@ -73,7 +77,10 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
                     var serializedresult = JsonSerializer.Deserialize<ErrorRoot>(result);
 
 
-                    SystemMessage = serializedresult.errors[0].message;
+                    if (serializedresult != null)
+                    {
+                        SetError(serializedresult.errors[0].message);
+                    }
 
 
                     return;
@@ -81,7 +88,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
                 }
                 catch
                 {
-                    SystemMessage = "Activty Creation Failed - Unknown Response Type.";
+                    SetError("Activty Creation Failed - Unknown Response Type.");
                     return;
 
                 }
@@ -125,6 +132,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
         }
 
+        private void SetError(string errorMsg)
+        {
+            ErrorFlag = true;
+            ErrorMessage = errorMsg;
 
+        }
     }
 }
