@@ -24,4 +24,8 @@
     <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Garmin_To_Fitbit_Steps_Sync_Web\Garmin_To_Fitbit_Steps_Sync_Web.csproj" />
+  </ItemGroup>
+
 </Project>
