@@ -1,29 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web
 {
-    public class FitBitAPI
+    public class FitBitAuthInfo
     {
-        public FitBitAPI(AuthorizationResponse auth)
+        public FitBitAuthInfo(string refresh_token, string access_token)
         {
+            this.RefreshToken = refresh_token;
+            this.AccessToken = access_token;
         }
 
-        public AuthorizationResponse AuthorizationInfo { get; set; }
+        public string AccessToken { get; set; }
+
+        public string RefreshToken { get; set; }
+    }
+
+
+    public class FitBitAPI
+    {
+        public FitBitAPI(IConfigurationRoot config)
+        {
+            Debug.Assert(!String.IsNullOrEmpty(config["Fitbit:AccessToken"]));
+            Debug.Assert(!String.IsNullOrEmpty(config["Fitbit:RefreshToken"]));
+
+            //query access token from key vault;out access token
+            var accessToken = config["Fitbit:AccessToken"];
+            var refreshToken = config["Fitbit:RefreshToken"];
+
+            var authInfo = new FitBitAuthInfo(refreshToken, accessToken);
+
+
+            AuthorizationInfo = authInfo;
+            VerifyAccessToken();
+        }
+
+        private void VerifyAccessToken()
+        {
+            //Make a request to / to 
+        }
+
+        public FitBitAuthInfo AuthorizationInfo { get; set; }
 
 
         public bool ErrorFlag { get; set; }
         public string ErrorMessage { get; set; } = string.Empty;
 
 
-        public async void CreateDailySteps(DateTime activitydate, long steps)
+        public async Task CreateDailySteps(DateTime activitydate, long steps)
         {
+            ResetError();
+
 
             //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
 
@@ -60,9 +96,16 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             request.Content = content;
 
-            request.Headers.Add("Authorization", $"Bearer {this.AuthorizationInfo.access_token}");
+            request.Headers.Add("Authorization", $"Bearer {this.AuthorizationInfo.AccessToken}");
 
-            var responseResult = await client.SendAsync(request);//.GetAwaiter().GetResult();
+            Debug.WriteLine($"Sending Request to FitBit {request.RequestUri}");
+
+            HttpResponseMessage responseResult;
+
+
+            responseResult = await client.SendAsync(request);
+
+
 
             var result = await responseResult.Content.ReadAsStringAsync();//.GetAwaiter().GetResult();
 
@@ -70,6 +113,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
             if (responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
             {
+                
+                Debug.WriteLine($"Fitbit API Error Response");
                 //attempt to deserialize error state
                 try
                 {
@@ -95,6 +140,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             }
             else
             {
+                Debug.WriteLine("Activity Created Success!");
+                Debug.WriteLine("");
+
                 //Should be an activity root returned
                 var serializedresult = JsonSerializer.Deserialize<ActivityLogRoot>(result);
                 string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
@@ -130,6 +178,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
 
 
+        }
+
+        private void ResetError()
+        {
+            ErrorFlag = false;
+            ErrorMessage = string.Empty;
         }
 
         private void SetError(string errorMsg)

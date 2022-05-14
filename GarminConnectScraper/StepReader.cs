@@ -73,12 +73,11 @@ namespace GarminConnectScraper
 
             var startwaiting = CurrentPage.WaitForNavigationAsync(navOptions);
 
-            await Task.Delay(200);
+            //await Task.Delay(200);
 
-            await CurrentPage.ScreenshotAsync($@"C:\Output\GarminSteps\Screenshots\{Guid.NewGuid().ToString()}.jpg");
+            //await CurrentPage.ScreenshotAsync($@"C:\Output\GarminSteps\Screenshots\{Guid.NewGuid().ToString()}.jpg");
 
             await startwaiting;
-
 
 
             //Go to steps daily summary page
@@ -87,6 +86,10 @@ namespace GarminConnectScraper
             //var stepsTodayUrl = $"https://connect.garmin.com/modern/daily-summary/{date}/steps";
 
             //await page.GoToAsync(stepsTodayUrl, WaitUntilNavigation.Networkidle0);
+
+            //click the back arrow to bring the steps back one day
+            await NavigateStepsBackOneDay();
+
 
             //var stepsDiv = await page.QuerySelectorAsync( @"#column-0 > div:nth-child(1) > div.widget-content > div.chart-placeholder > div.chart-container > div > div > div > div > span > div > div");
             var stepsDiv = await GetStepsDiv();
@@ -125,6 +128,48 @@ namespace GarminConnectScraper
 
 
 
+        }
+
+        private async Task NavigateStepsBackOneDay()
+        {
+            //Try to find the steps element on the page.
+            ElementHandle? handle = null;
+
+
+            var path1 = "#column-0 > div:nth-child(1) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+            var path2 = "#column-0 > div:nth-child(7) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+            var path3 = "#column-0 > div:nth-child(8) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+
+            //document.querySelector("#column-0 > div:nth-child(9) > div.widget-content > div.chart-placeholder > div.chart-container > div > div > div > div > span > div > div")
+
+            var paths = new List<string>() {path1, path2, path3};
+
+            foreach (var path in paths)
+            {
+                handle = await CurrentPage.QuerySelectorAsync(path);
+                if (handle == null) continue;
+
+                await ClickArrow();
+                break;
+            }
+
+            async Task ClickArrow()
+            {
+                await handle.ClickAsync();
+
+                //wait for yesterdays steps to appear
+                await Task.Delay(2000);
+
+
+                //CurrentPage.wait
+
+                //NavigationOptions navOptions = new NavigationOptions
+                //{
+                //    WaitUntil = new[] { WaitUntilNavigation.Networkidle0 }
+                //};
+
+                //await CurrentPage.WaitForNavigationAsync(navOptions);
+            }
         }
 
         private async void Finished(object? sender, RequestEventArgs e)

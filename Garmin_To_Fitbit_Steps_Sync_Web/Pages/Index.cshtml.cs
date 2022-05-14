@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.ApplicationInsights;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -203,20 +201,20 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             var clientID = Configuration["Fitbit:ClientID"];
             var clientSecret = Configuration["Fitbit:ClientSecret"];
 
-            using var client = new HttpClient(handler: new HttpClientHandler
-            {
-                // 8888 = Fiddler standard port
-                Proxy = new WebProxy(new Uri("http://localhost:8888")),
-                UseProxy = true
-            });
+            using var client = new HttpClient();//handler: new HttpClientHandler
+            //{
+            //    // 8888 = Fiddler standard port
+            //    Proxy = new WebProxy(new Uri("http://localhost:8888")),
+            //    UseProxy = true
+            //});
 
 
 
             var postData = new List<KeyValuePair<string, string>>(){
-                new KeyValuePair<string, string>("code", Code),
-                new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                new KeyValuePair<string, string>("client_id", clientID),
-                new KeyValuePair<string, string>("client_secret", clientSecret),
+                new("code", Code),
+                new("grant_type", "authorization_code"),
+                new("client_id", clientID),
+                new("client_secret", clientSecret),
             };
 
             var request = new HttpRequestMessage();
@@ -248,8 +246,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                 var postData = new List<KeyValuePair<string, string>>()
                 {
-                    new KeyValuePair<string, string>("refresh_token", Authorization.refresh_token),
-                    new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                    new("refresh_token", Authorization.refresh_token),
+                    new("grant_type", "refresh_token"),
                 };
 
                 var request = new HttpRequestMessage();
@@ -337,12 +335,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var postData = new List<KeyValuePair<string, string>>(){
 
                             //17190 - walking 3.0 mph pace
-                            new KeyValuePair<string, string>("activityId", "17190"),
-                            new KeyValuePair<string, string>("startTime", "12:00"),
-                            new KeyValuePair<string, string>("durationMillis", "43199999"),
-                            new KeyValuePair<string, string>("date", today),
-                            new KeyValuePair<string, string>("distanceUnit", "steps"),
-                            new KeyValuePair<string, string>("distance", steps),
+                            new("activityId", "17190"),
+                            new("startTime", "12:00"),
+                            new("durationMillis", "43199999"),
+                            new("date", today),
+                            new("distanceUnit", "steps"),
+                            new("distance", steps),
                         };
 
 
@@ -360,8 +358,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
 
                 var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                string jf = string.Empty;
 
                 if (responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
                 {
