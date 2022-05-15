@@ -5,57 +5,56 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Garmin_To_Fitbit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
-namespace Garmin_To_Fitbit_Steps_Sync_Web
+namespace Garmin_To_FitBit_Steps_Sync_Web
 {
-    public class FitBitAuthInfo
-    {
-        public FitBitAuthInfo(string refresh_token, string access_token)
-        {
-            this.RefreshToken = refresh_token;
-            this.AccessToken = access_token;
-        }
-
-        public string AccessToken { get; set; }
-
-        public string RefreshToken { get; set; }
-    }
-
-
     public class FitBitAPI
     {
+        private readonly IConfigurationRoot _config;
+
         public FitBitAPI(IConfigurationRoot config)
         {
-            Debug.Assert(!String.IsNullOrEmpty(config["Fitbit:AccessToken"]));
-            Debug.Assert(!String.IsNullOrEmpty(config["Fitbit:RefreshToken"]));
+            _config = config;
+            UpdateTokens();
+
+        }
+
+        private void UpdateTokens()
+        {
+            Debug.Assert(!String.IsNullOrEmpty(_config["Fitbit:AccessToken"]));
+            Debug.Assert(!String.IsNullOrEmpty(_config["Fitbit:RefreshToken"]));
 
             //query access token from key vault;out access token
-            var accessToken = config["Fitbit:AccessToken"];
-            var refreshToken = config["Fitbit:RefreshToken"];
+            var accessToken = _config["Fitbit:AccessToken"];
+            var refreshToken = _config["Fitbit:RefreshToken"];
 
-            var authInfo = new FitBitAuthInfo(refreshToken, accessToken);
+            var currentAuthInfo = new FitBitAuthInfo(refreshToken, accessToken);
+
+
 
 
             AuthorizationInfo = authInfo;
-            VerifyAccessToken();
-        }
-
-        private void VerifyAccessToken()
-        {
             //Make a request to / to 
         }
 
         public FitBitAuthInfo AuthorizationInfo { get; set; }
 
 
+
         public bool ErrorFlag { get; set; }
         public string ErrorMessage { get; set; } = string.Empty;
 
-
+        /// <summary>
+        /// Fitbit API Call - /1/user/-/activities.json
+        /// </summary>
+        /// <param name="activitydate"></param>
+        /// <param name="steps"></param>
+        /// <returns></returns>
         public async Task CreateDailySteps(DateTime activitydate, long steps)
         {
             ResetError();
@@ -77,6 +76,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
                             new("activityId", "17190"),
                             //Start walking around noon
                             new("startTime", "12:00"),
+
                             //just under 12 hours
                             new("durationMillis", "43199999"),
                             //inserting steps for today
@@ -179,6 +179,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
 
         }
+
+       
+        
+
+        
 
         private void ResetError()
         {

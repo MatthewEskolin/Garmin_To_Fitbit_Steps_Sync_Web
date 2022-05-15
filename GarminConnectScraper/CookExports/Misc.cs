@@ -23,6 +23,13 @@ namespace GarminConnectScraper.CookExports
         //var keyuri = $"https://{config["KeyVaultName"]}.vault.azure.net/";
 
 
+        //HOW TO READ ALL ENVIRONMENT VARIABLES
+        //Console.WriteLine();
+        //Console.WriteLine("GetEnvironmentVariables: ");
+        //foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
+        //Console.WriteLine("  {0} = {1}", de.Key, de.Value);
+
+
 
 
     }

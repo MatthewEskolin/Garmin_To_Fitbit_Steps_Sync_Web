@@ -17,6 +17,7 @@ public class GarminConnectScraper
     public async Task Run()
     {
         var steps = await GetStepsFromGarmin();
+
         Steps = steps;
 
         await SendStepsToFitBit();

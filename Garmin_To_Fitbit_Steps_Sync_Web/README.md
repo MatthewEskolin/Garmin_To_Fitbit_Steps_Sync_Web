@@ -74,7 +74,11 @@ https://dev.fitbit.com/apps/details/22BNTM
 * Let's build and test the new api call from the scraper
 
 
-### 
+###  05/15/2022
 * Make a call to the API from the Scraper App
+
+### 05/15/2022
+* Continue testing the App - make sure it consistently works
+* let's see if we can get it to work 3 times in a row
 
 

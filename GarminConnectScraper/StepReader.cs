@@ -136,18 +136,21 @@ namespace GarminConnectScraper
             ElementHandle? handle = null;
 
 
-            var path1 = "#column-0 > div:nth-child(1) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
-            var path2 = "#column-0 > div:nth-child(7) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+            //var path1 = "#column-0 > div:nth-child(1) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+            //var path2 = "#column-0 > div:nth-child(7) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
             var path3 = "#column-0 > div:nth-child(8) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
+            var path4 = "#column-0 > div:nth-child(9) > div.widget-footer.clearfix > div.pull-left > span.navButtons > button.widget-next.widget-footer-action > i";
 
             //document.querySelector("#column-0 > div:nth-child(9) > div.widget-content > div.chart-placeholder > div.chart-container > div > div > div > div > span > div > div")
 
-            var paths = new List<string>() {path1, path2, path3};
+            var paths = new List<string>() {path3,path4};
 
             foreach (var path in paths)
             {
                 handle = await CurrentPage.QuerySelectorAsync(path);
                 if (handle == null) continue;
+
+                Debug.WriteLine($"Found element at path {path}");
 
                 await ClickArrow();
                 break;
