@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Garmin_To_Fitbit_Steps_Sync_Web;
+using Garmin_To_FitBit_Steps_Sync_Web;
 using Microsoft.Extensions.Configuration;
 
 namespace GarminConnectScraper;

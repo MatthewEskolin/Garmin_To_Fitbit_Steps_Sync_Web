@@ -1,0 +1,290 @@
+﻿++Solution 'Garmin_To_Fitbit_Steps_Sync_Web' ‎(2 of 2 projects)
+i:{00000000-0000-0000-0000-000000000000}:Garmin_To_Fitbit_Steps_Sync_Web.sln
+++GarminConnectScraper
+i:{00000000-0000-0000-0000-000000000000}:GarminConnectScraper
+++Dependencies
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>901
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1461
+++Analyzers
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:analyzers
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:analyzers
+++Frameworks
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:frameworks
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:frameworks
+++Packages
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:packages
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:packages
+++Microsoft.Extensions.Configuration.UserSecrets (6.0.1)
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1481
+++Microsoft.Extensions.Hosting (6.0.1)
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1483
+++PuppeteerSharp (7.0.0)
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1485
+++Projects
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:projects
+++AppSettings.json
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\appsettings.json
+++Program.cs
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\program.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\program.cs
+++StepReader.cs
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\stepreader.cs
+++Microsoft.AspNetCore.App.Analyzers
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.2\analyzers\dotnet\cs\microsoft.aspnetcore.app.analyzers.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.2\analyzers\dotnet\cs\microsoft.aspnetcore.app.analyzers.dll
+++Microsoft.AspNetCore.App.CodeFixes
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.2\analyzers\dotnet\cs\microsoft.aspnetcore.app.codefixes.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.2\analyzers\dotnet\cs\microsoft.aspnetcore.app.codefixes.dll
+++Microsoft.CodeAnalysis.CSharp.NetAnalyzers
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.csharp.netanalyzers.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.csharp.netanalyzers.dll
+++Microsoft.CodeAnalysis.NetAnalyzers
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.netanalyzers.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.netanalyzers.dll
+++Microsoft.Extensions.Logging.Generators
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\users\matte\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\analyzers\dotnet\roslyn4.0\cs\microsoft.extensions.logging.generators.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.2\analyzers\dotnet\roslyn4.0\cs\microsoft.extensions.logging.generators.dll
+++System.Text.Json.SourceGeneration
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\program files\dotnet\packs\microsoft.netcore.app.ref\6.0.2\analyzers\dotnet\cs\system.text.json.sourcegeneration.dll
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\packs\microsoft.netcore.app.ref\6.0.2\analyzers\dotnet\cs\system.text.json.sourcegeneration.dll
+++Microsoft.NETCore.App
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\microsoft.netcore.app
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\microsoft.netcore.app
+++Garmin_To_Fitbit_Steps_Sync_Web
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web.csproj
+i:{00000000-0000-0000-0000-000000000000}:Garmin_To_Fitbit_Steps_Sync_Web
+++Connected Services 
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1462
+++Azure.Extensions.AspNetCore.Configuration.Secrets (1.2.2)
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1837
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1968
+++Azure.Identity (1.6.0)
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1839
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1966
+++Azure.Security.KeyVault.Secrets (4.3.0)
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1836
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:>1967
+++Microsoft.ApplicationInsights.AspNetCore (2.20.0)
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1835
+++Microsoft.AspNetCore.Session (2.2.0)
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1486
+++Properties
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\
+++wwwroot
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\
+++Pages
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\
+++JsonObjects
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\
+++activities.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activities.json
+++Activity.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activity.cs
+++ActivityLog.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activitylog.cs
+++ActivityLogRoot.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activitylogroot.cs
+++ActivityStepsRoot.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activitystepsroot.cs
+++ActivityTypeRoot.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\activitytyperoot.cs
+++AuthorizationResponse.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\authorizationresponse.cs
+++Distance.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\distance.cs
+++Error.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\error.cs
+++ErrorRoot.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\errorroot.cs
+++Example_Activiy.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\example_activiy.json
+++Goals.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\goals.cs
+++Summary.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\jsonobjects\summary.cs
+++Shared
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\shared\
+++Utilities
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\utilities\
+++_ViewImports.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\_viewimports.cshtml
+++_ViewStart.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\_viewstart.cshtml
+++COOKBOOK_OUTPUTS.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\cookbook_outputs.cshtml
+++Error.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\error.cshtml
+++Index.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\index.cshtml
+++Index.cshtml.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\index.cshtml.cs
+++Privacy.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\privacy.cshtml
+++Readme.md
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\readme.md
+++Test.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\test.cshtml
+++appsettings.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\appsettings.json
+++FitBitAPI.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\fitbitapi.cs
+++README.md
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\readme.md
+++Startup.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\startup.cs
+++No service dependencies discovered
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:>1463
+++Microsoft.AspNetCore.Analyzers
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk.web\analyzers\cs\microsoft.aspnetcore.analyzers.dll
+++Microsoft.AspNetCore.Components.Analyzers
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk.web\analyzers\cs\microsoft.aspnetcore.components.analyzers.dll
+++Microsoft.AspNetCore.Mvc.Analyzers
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk.web\analyzers\cs\microsoft.aspnetcore.mvc.analyzers.dll
+++Microsoft.AspNetCore.Razor.SourceGenerator.Tooling.Internal
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk.razor\source-generators\microsoft.aspnetcore.razor.sourcegenerator.tooling.internal.dll
+++Microsoft.NET.Sdk.Razor.SourceGenerators
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk.razor\source-generators\microsoft.net.sdk.razor.sourcegenerators.dll
+++Microsoft.AspNetCore.App
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\microsoft.aspnetcore.app
+++PublishProfiles
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\publishprofiles\
+++ServiceDependencies
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\
+++launchSettings.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\launchsettings.json
+++css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\css\
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\
+++js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\js\
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\
+++lib
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\
+++favicon.ico
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\favicon.ico
+++_Layout.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\shared\_layout.cshtml
+++_LayoutSimple.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\shared\_layoutsimple.cshtml
+++_ValidationScriptsPartial.cshtml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\shared\_validationscriptspartial.cshtml
+++VisibilityTagHelper.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\utilities\visibilitytaghelper.cs
+++Error.cshtml.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\error.cshtml.cs
+++Privacy.cshtml.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\privacy.cshtml.cs
+++Test.cshtml.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\pages\test.cshtml.cs
+++appsettings.Development.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\appsettings.development.json
+++fitbitapitools - FTP.pubxml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\publishprofiles\fitbitapitools - ftp.pubxml
+++fitbitapitools - ReadOnly - FTP.pubxml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\publishprofiles\fitbitapitools - readonly - ftp.pubxml
+++fitbitapitools - Web Deploy.pubxml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\publishprofiles\fitbitapitools - web deploy.pubxml
+++fitbitapitools - Zip Deploy.pubxml
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\publishprofiles\fitbitapitools - zip deploy.pubxml
+++fitbitapitools - FTP
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - ftp\
+++fitbitapitools - Web Deploy
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - web deploy\
+++fitbitapitools - Zip Deploy
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - zip deploy\
+++site.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\css\site.css
+++site.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\js\site.js
+++bootstrap
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\
+++jquery
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\
+++jquery-validation
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\
+++jquery-validation-unobtrusive
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation-unobtrusive\
+++profile.arm.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - ftp\profile.arm.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - web deploy\profile.arm.json
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\properties\servicedependencies\fitbitapitools - zip deploy\profile.arm.json
+++dist
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\dist\
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\dist\
+++LICENSE
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\license
+++LICENSE.txt
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\license.txt
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation-unobtrusive\license.txt
+++LICENSE.md
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\license.md
+++jquery.validate.unobtrusive.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+++jquery.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\dist\jquery.js
+++additional-methods.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\dist\additional-methods.js
+++jquery.validate.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+++jquery.validate.unobtrusive.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+++bootstrap.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+++bootstrap-grid.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+++bootstrap-reboot.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+++bootstrap.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+++jquery.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\dist\jquery.min.js
+++additional-methods.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+++jquery.validate.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+++bootstrap.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+++bootstrap.min.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+++bootstrap-grid.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+++bootstrap-grid.min.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+++bootstrap-reboot.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+++bootstrap-reboot.min.css
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+++bootstrap.bundle.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+++bootstrap.js.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+++bootstrap.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+++jquery.min.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\jquery\dist\jquery.min.map
+++bootstrap.min.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+++bootstrap-grid.min.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+++bootstrap-reboot.min.css.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+++bootstrap.bundle.js.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+++bootstrap.bundle.min.js
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+++bootstrap.min.js.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+++bootstrap.bundle.min.js.map
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+++NewFolder
+++CookExports
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\cookexports\
+++Misc.cs
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\cookexports\misc.cs
+++GarminConnectScraper.cs
+i:{ca57c49d-5ce0-4d8f-9fbd-27037e95aac3}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garminconnectscraper\garminconnectscraper.cs
+++FitBitAuthInfo.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\fitbitauthinfo.cs
+++FitBitApiMethodAttribute.cs
+i:{cf2b9816-6ddb-43b3-8869-65cff7f05d1d}:c:\src\gh\garmin_to_fitbit_steps_sync_web\garmin_to_fitbit_steps_sync_web\fitbitapimethodattribute.cs

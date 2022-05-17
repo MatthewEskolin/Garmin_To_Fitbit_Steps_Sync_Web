@@ -8,6 +8,14 @@
     <UserSecretsId>1f117e9c-6f9d-4303-9e02-3cc58f0be85f</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;TEST</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;TEST</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="AppSettings.json" />
   </ItemGroup>
@@ -25,6 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
   <ItemGroup>

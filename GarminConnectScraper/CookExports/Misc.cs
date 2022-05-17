@@ -23,12 +23,34 @@ namespace GarminConnectScraper.CookExports
         //var keyuri = $"https://{config["KeyVaultName"]}.vault.azure.net/";
 
 
+
+
         //HOW TO READ ALL ENVIRONMENT VARIABLES
         //Console.WriteLine();
         //Console.WriteLine("GetEnvironmentVariables: ");
         //foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
         //Console.WriteLine("  {0} = {1}", de.Key, de.Value);
 
+
+
+
+        //HOW TO MANIPUATE AZURE KEYVAULT
+        //var keyVaultUri = new System.Uri("https://kvfitbitapi.vault.azure.net/");
+
+        //var client = new SecretClient(keyVaultUri, credential);
+        //client.SetSecret(new KeyVaultSecret("Test-Secret", "Test-Value-Updated-2"));
+        //client.SetSecret(new KeyVaultSecret("Test-Secret2", "Test-Value2-Updated-2"));
+
+        //Response<KeyVaultSecret>? s1 = await client.GetSecretAsync("Test-Secret");
+        //Console.WriteLine(s1.Value.Value);
+
+        //var s2 = await client.GetSecretAsync("Test-Secret2");
+        //Console.WriteLine(s2.Value.Value);
+
+        //Console.WriteLine(cnfg["Test-Secret"]);
+        //Console.WriteLine(cnfg["Test-Secret2"]);
+
+        //cnfg.Reload();
 
 
 
