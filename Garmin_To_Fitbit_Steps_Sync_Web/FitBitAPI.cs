@@ -39,8 +39,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             //Make a request to / to 
         }
 
-        public FitBitAuthInfo AuthorizationInfo { get; set; }
-
+        private FitBitAuthInfo AuthorizationInfo { get; set; }
 
 
         public bool ErrorFlag { get; set; }
