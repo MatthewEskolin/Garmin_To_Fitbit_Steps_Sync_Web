@@ -40,7 +40,7 @@ public class GarminConnectScraper
 
     private async Task SendStepsToFitBit()
     {
-        var api = new FitBitAPI(_configuration);
+        var api = await FitBitAPI.InitializeApi(_configuration);
 
         //Create steps for previous day as we want to spread our steps out over a 12 hour span, so a max of two such activities can be created in a 24 hour period.
         //If we try to submit steps on the day they occur, we will get errors when trying to submit the remaining steps later.

@@ -81,4 +81,13 @@ https://dev.fitbit.com/apps/details/22BNTM
 * Continue testing the App - make sure it consistently works
 * let's see if we can get it to work 3 times in a row
 
+### 05/20/2022
+* Continue testing the App - make sure it consistently works again
+* let's see if we can get it to work 3 times in a row again
+* start figuring out the automation with the refresh tokens
+
+
+### 05/21/2022
+* Would really like to add persistant logging - but also want to the the app functional first
+
 

@@ -34,7 +34,29 @@ namespace GarminConnectScraper
 
             //Update Secrets
 
-            var apiTest = new FitBitAPI(cnfg);
+            var apiTest = await FitBitAPI.InitializeApi(cnfg);
+
+
+            //new access_token
+
+            //string at = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkJOVE0iLCJzdWIiOiI4TTNaOUgiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNjUzMTc2MjQzLCJpYXQiOjE2NTMxNDc0NDN9.R9yswVZcCkHyHMuJeN1T0MAVVvvp_WDcU_kJ8Qbbp0Y";
+
+            ////new refresh token
+            //string rt = "e05447a33ccb2b56686650487ae49997f57998372d776f2934b3eff242c38256";
+
+
+            //var r1 = await apiTest.UpdateKeyVault("Fitbit--AccessToken", at);
+
+            //Console.WriteLine();
+            //Console.WriteLine(r1.Value.Value);
+            //Console.WriteLine("Updated Access Token");
+
+            //var r2 = await apiTest.UpdateKeyVault("Fitbit--RefreshToken", rt);
+
+            //Console.WriteLine();
+            //Console.WriteLine(r2.Value.Value);
+            //Console.WriteLine("Updated Refresh Token");
+
             //Update Azure Key Vault Refresh Token
             //"Fitbit--RefreshToken"
             return;
