@@ -99,6 +99,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             }
 
             //TODO named tuples
+            Debug.WriteLine("");
             Debug.WriteLine($"New Access Token: {newAuthInfo.Item2.AccessToken}");
             Debug.WriteLine($"New Refresh Token: {newAuthInfo.Item2.RefreshToken}");
 
