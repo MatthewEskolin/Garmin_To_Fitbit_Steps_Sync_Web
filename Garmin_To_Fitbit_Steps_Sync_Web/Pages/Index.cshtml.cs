@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -160,7 +162,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         //Called from fitbit.com after Authorise is complete. Returned Code is then used to request an access token as part of OAuth flow.
-        public void OnGetAuthorised()
+        public  async Task<IActionResult> OnGetAuthorised()
         {
 
             //received authorization code, so proceed to get access token.
@@ -174,6 +176,28 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                     var jsonString = GetAccessToken();
                     AuthorizationResponse obj = JsonSerializer.Deserialize<AuthorizationResponse>(jsonString);
                     this.Authorization = obj;
+
+                    //TODO - CHECK THAT USER IS matteskolin@gmail.com before updating keyvault update keyuvault with new access and refresh token - (only if user is matteskolin@gmail.com)
+                    //var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot) Configuration, false);
+                    //var user = await fbApi.GetUserProfile();
+
+                    //always update secrets for now
+                    var credential = new DefaultAzureCredential();
+                    var keyVaultUriString = $"https://{Configuration["KeyVaultName"]}.vault.azure.net/";
+                    var keyVaultUri = new System.Uri(keyVaultUriString);
+                    var client = new SecretClient(keyVaultUri, credential);
+
+                    if (obj != null)
+                    {
+                        var t1 = client.SetSecretAsync(new KeyVaultSecret("Fitbit--RefreshToken", obj.refresh_token));//.GetAwaiter().GetResult();
+                        var t2 = client.SetSecretAsync(new KeyVaultSecret("Fitbit--AccessToken", obj.access_token)); //.GetAwaiter().GetResult();
+
+                        await t1;
+                        await t2;
+
+                        Console.WriteLine("Updated Key Vault");
+                        Console.WriteLine("Updated Key Vault");
+                    }
                 }
 
 
@@ -192,6 +216,8 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
             {
                 this.SystemMessage = "Access Code Not Received";
             }
+
+            return Page();
 
         }
         // This method gets the access token which will be used to access the user's account in the Fitbit API.

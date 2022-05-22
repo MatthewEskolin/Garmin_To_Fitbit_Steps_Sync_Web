@@ -35,6 +35,11 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             if (updateTokens)
             {
                 var updateTokensResult = await api.UpdateTokens();
+
+                if (updateTokensResult == false)
+                {
+                    throw new Exception("Failed to Update Tokens");
+                }
             }
 
             return api;
@@ -337,6 +342,28 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         {
             ErrorFlag = true;
             ErrorMessage = errorMsg;
+
+        }
+
+
+        /// <summary>
+        /// Fitbit API Call - /1/user/-/profile.json
+        /// </summary>
+        /// <returns></returns>
+        [FitBitApiMethod]
+        public async Task<HttpResponseMessage> GetUserProfile()
+        {
+            var url = "https://api.fitbit.com/1/user/-/profile.json";
+
+            using var client = GetHttpClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            request.Headers.Add("Authorization", $"Bearer {this.AuthorizationInfo.AccessToken}");
+
+            var responseResult = await client.SendAsync(request);
+
+            return responseResult;
 
         }
     }

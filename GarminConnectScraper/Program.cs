@@ -36,6 +36,8 @@ namespace GarminConnectScraper
 
             var apiTest = await FitBitAPI.InitializeApi(cnfg);
 
+            await apiTest.CreateDailySteps(DateTime.Parse("05/20/2022"), 1);
+
 
             //new access_token
 
@@ -45,6 +47,7 @@ namespace GarminConnectScraper
             //string rt = "e05447a33ccb2b56686650487ae49997f57998372d776f2934b3eff242c38256";
 
 
+                    //
             //var r1 = await apiTest.UpdateKeyVault("Fitbit--AccessToken", at);
 
             //Console.WriteLine();
@@ -63,7 +66,15 @@ namespace GarminConnectScraper
 #else
 
 
+            //var keyVaultUriString = $"https://{cnfg["KeyVaultName"]}.vault.azure.net/";
+            //var keyVaultUri = new System.Uri(keyVaultUriString);
+            //var client = new SecretClient(keyVaultUri, credential);
 
+            //var s1 = client.GetSecret("Fitbit--RefreshToken");
+            //Console.WriteLine("(1)" + s1.Value.Value);
+            //var s2 = client.GetSecret("Fitbit--AccessToken");
+            //Console.WriteLine("(2)" + s2.Value.Value);
+            //return;
 
             ////Run Main Program Tasks
             var program = new GarminConnectScraper(cnfg);
