@@ -19,12 +19,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        // public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //     Host.CreateDefaultBuilder(args)
-        //         .ConfigureWebHostDefaults(webBuilder =>
-        //         {
-        //             webBuilder.UseStartup<Startup>();
-        //         });
 
 
 
