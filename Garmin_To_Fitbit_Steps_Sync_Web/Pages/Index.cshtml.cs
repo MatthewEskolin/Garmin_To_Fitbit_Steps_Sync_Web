@@ -309,6 +309,11 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
 
 
+        public void OnPostGetActivitiesList()
+        {
+            throw new NotImplementedException("TODO");
+        }
+
         #endregion
 
         //gets activity types so we can find out what ID to use for walking. This returns a lookup table that is not specific to a user

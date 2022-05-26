@@ -25,7 +25,13 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
     /// </summary>
     public class FitBitAPI
     {
+        private FitBitAuthInfo AuthorizationInfo { get; set; }
+
+        public bool ErrorFlag { get; set; }
+        public string ErrorMessage { get; set; } = Empty;
+
         private readonly IConfigurationRoot _config;
+
         private bool _tokensVerified = false;
 
         public static async Task<FitBitAPI> InitializeApi(IConfigurationRoot config, bool updateTokens = true)
@@ -123,11 +129,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
         }
 
-        private FitBitAuthInfo AuthorizationInfo { get; set; }
 
-
-        public bool ErrorFlag { get; set; }
-        public string ErrorMessage { get; set; } = Empty;
 
         /// <summary>
         /// Fitbit API Call - /1/user/-/activities.json 
@@ -320,32 +322,6 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             return responseResult;
         }
 
-
-        private HttpClient GetHttpClient()
-        {
-            var client = new HttpClient();
-            return client;
-        }
-
-
-        //
-
-        
-
-        private void ResetError()
-        {
-            ErrorFlag = false;
-            ErrorMessage = Empty;
-        }
-
-        private void SetError(string errorMsg)
-        {
-            ErrorFlag = true;
-            ErrorMessage = errorMsg;
-
-        }
-
-
         /// <summary>
         /// Fitbit API Call - /1/user/-/profile.json
         /// </summary>
@@ -366,5 +342,44 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             return responseResult;
 
         }
+
+
+        public async Task<HttpResponseMessage> GetActivtyLogList()
+        {
+            var url = "https://api.fitbit.com/1/user/-/activities/list.json";
+
+            using var client = GetHttpClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            request.Headers.Add("Authorization", $"Bearer {this.AuthorizationInfo.AccessToken}");
+
+            var responseResult = await client.SendAsync(request);
+
+            return responseResult;
+
+        }
+
+        private HttpClient GetHttpClient()
+        {
+            var client = new HttpClient();
+            return client;
+        }
+
+
+        private void ResetError()
+        {
+            ErrorFlag = false;
+            ErrorMessage = Empty;
+        }
+        private void SetError(string errorMsg)
+        {
+            ErrorFlag = true;
+            ErrorMessage = errorMsg;
+
+        }
+
+
+
     }
 }

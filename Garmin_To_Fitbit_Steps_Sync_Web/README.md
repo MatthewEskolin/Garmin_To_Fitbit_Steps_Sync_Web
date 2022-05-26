@@ -6,10 +6,10 @@
 https://stackoverflow.com/questions/65049531/puppeteer-iframe-contentframe-returns-null
 https://www.puppeteersharp.com/examples/index.html
 
-### Garmin
+### Garmin Project Example
 C:\src\gh\garmin-connect-scraper\lib\main.js
 
-### User Secrets / Configuration in a .NET 6 Consoel App
+### User Secrets / Configuration in a .NET 6 Console App
 https://makolyte.com/how-to-add-user-secrets-in-a-dotnetcore-console-app/
 https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration
 
@@ -22,6 +22,7 @@ https://dev.fitbit.com/build/reference/web-api/
 ## Development Roadmap
 * Add Tip Jar
 * Check to make sure that secrets aren't in the repo 
+* Get the Windows Scheduler Working for the Scraper
 
 ## Possible Features
 * Make it visible to user if activities have been input for the previous days, so we don't forget or create a duplicate entry
@@ -29,9 +30,10 @@ https://dev.fitbit.com/build/reference/web-api/
 
 ## Recently Completed Features
 * Give us our average steps for the last 7 days here in the APP
-* Need to have confidence in this app to input data into FitBit Correctly so that we don't ever have to login on the fitbit homepage
-* Need to implement Azure keyvault - Currently Azure WebApp cannot access app secrets
 * \[Useability\] Only Show the Add Activity and other buttons when we are already connected to FitBit.
+
+
+## Log
 
 ### 08/12/2020
 adding a drop-down to select the day for the activity. We usually input our steps for the previous day, so this will be the default. We will also provide an option to put in
@@ -90,4 +92,7 @@ https://dev.fitbit.com/apps/details/22BNTM
 ### 05/21/2022
 * Would really like to add persistant logging - but also want to the the app functional first
 
-
+### 05/25/2022
+* Setup Scheduler - (It would be cool if this could be done in a script in case we ever need it on a new machine)
+	 -Before we Create the Task We Need a way of checking if an activity exists on FitBit For the current day; this is to prevent the creation of duplicate data - especially when refreshing the token
+	 -https://dev.fitbit.com/build/reference/web-api/activity/get-activity-log-list/  consider using this to check if we have already uploaded an activity for yesterday
