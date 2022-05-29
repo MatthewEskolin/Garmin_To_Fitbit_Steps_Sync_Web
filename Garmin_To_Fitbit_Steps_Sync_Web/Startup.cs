@@ -30,10 +30,14 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             if(CurrentEnvironment.IsProduction())
             {
                 //Put Production Only Configuration here.
+                services.AddApplicationInsightsTelemetry(Configuration);
+            }
+            else
+            {
+                // The following line enables Application Insights telemetry collection.
+                services.AddApplicationInsightsTelemetry(Configuration);
             }
 
-            // The following line enables Application Insights telemetry collection.
-            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddLogging();
         }

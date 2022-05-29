@@ -4,13 +4,16 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure;
+using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Garmin_To_Fitbit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -34,9 +37,21 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
         private bool _tokensVerified = false;
 
+        public static FitBitAPI InitializeApi(FitBitAuthInfo authInfo,IConfigurationRoot config)
+        {
+            var api = new FitBitAPI(config)
+            {
+                AuthorizationInfo = authInfo
+            };
+
+            return api;
+        }
+
         public static async Task<FitBitAPI> InitializeApi(IConfigurationRoot config, bool updateTokens = true)
         {
             var api = new FitBitAPI(config);
+
+            //AuthorizationInfo needs to be set whether or not Tokens are Updated
 
             if (updateTokens)
             {
@@ -47,6 +62,12 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
                     throw new Exception("Failed to Update Tokens");
                 }
             }
+            else
+            {
+                //set authorization from config
+                var auth = new FitBitAuthInfo(config["Fitbit:RefreshToken"],config["Fitbit:AccessToken"]);
+                api.AuthorizationInfo = auth;
+            }
 
             return api;
         }
@@ -55,13 +76,6 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         private FitBitAPI(IConfigurationRoot config)
         {
             _config = config;
-
-            //check if api is ready - if yes set _tokensVerfied to true, else report token error
-
-
-            //Console.WriteLine("Could not get valid access token...");
-
-
         }
 
         
@@ -343,17 +357,34 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
         }
 
-
-        public async Task<HttpResponseMessage> GetActivtyLogList()
+        /// <summary>
+        /// Fitbit API Call - GET 1/user/-/activities/list.json?user-id=-@@afterDate=2022-05-26@@sort=asc@@limit=100@@offset=0
+        /// </summary>
+        /// <returns></returns>
+        [FitBitApiMethod]
+        public async Task<HttpResponseMessage> GetActivityLogList()
         {
             var url = "https://api.fitbit.com/1/user/-/activities/list.json";
 
-            using var client = GetHttpClient();
+            //Query String Parameters
+            var queryString = new Dictionary<string, string>()
+            {
+                {"user-id", "-"},
+                {"afterDate", DateTime.Now.AddDays(-1).Date.ToString("yyyy-MM-dd")},
+                {"sort", "asc"},
+                {"limit", "100"},
+                {"offset", "0"}
 
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            };
 
+
+            url = QueryHelpers.AddQueryString(url, queryString);
+            var uri = new Uri(url);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
             request.Headers.Add("Authorization", $"Bearer {this.AuthorizationInfo.AccessToken}");
 
+            var client = GetHttpClient();
             var responseResult = await client.SendAsync(request);
 
             return responseResult;
@@ -365,6 +396,8 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             var client = new HttpClient();
             return client;
         }
+
+
 
 
         private void ResetError()

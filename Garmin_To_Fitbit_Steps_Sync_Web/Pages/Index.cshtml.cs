@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Garmin_To_FitBit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -197,6 +198,12 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
                         Console.WriteLine("Updated Key Vault");
                         Console.WriteLine("Updated Key Vault");
+
+                        if (Configuration is IConfigurationRoot cnfg)
+                        {
+                            cnfg.Reload();
+                            Console.WriteLine("Configuration Reloaded");
+                        }
                     }
                 }
 
@@ -309,9 +316,15 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
 
 
-        public void OnPostGetActivitiesList()
+        public async Task<IActionResult> OnPostGetActivitiesList()
         {
-            throw new NotImplementedException("TODO");
+            var fbApi =  await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
+            var activities = await fbApi.GetActivityLogList();
+
+            //Dump to Console
+            Console.Write(activities.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+
+            return Page();
         }
 
         #endregion

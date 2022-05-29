@@ -23,6 +23,7 @@ https://dev.fitbit.com/build/reference/web-api/
 * Add Tip Jar
 * Check to make sure that secrets aren't in the repo 
 * Get the Windows Scheduler Working for the Scraper
+* Understand where all the "Info" is coming from to control our logs better
 
 ## Possible Features
 * Make it visible to user if activities have been input for the previous days, so we don't forget or create a duplicate entry
@@ -96,3 +97,11 @@ https://dev.fitbit.com/apps/details/22BNTM
 * Setup Scheduler - (It would be cool if this could be done in a script in case we ever need it on a new machine)
 	 -Before we Create the Task We Need a way of checking if an activity exists on FitBit For the current day; this is to prevent the creation of duplicate data - especially when refreshing the token
 	 -https://dev.fitbit.com/build/reference/web-api/activity/get-activity-log-list/  consider using this to check if we have already uploaded an activity for yesterday
+
+
+### 05/27/2022
+* Next: Consider Deserializing /ActivitiesList Response into strongly typed object so we can read the propeties and dates easily
+* Next: Figure out where all the debug logging is coming from
+
+
+
