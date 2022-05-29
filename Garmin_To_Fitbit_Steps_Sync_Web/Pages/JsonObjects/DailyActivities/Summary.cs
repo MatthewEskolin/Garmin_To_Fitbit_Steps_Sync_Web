@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects
+namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.DailyActivities
 {
 
         public class Summary    {

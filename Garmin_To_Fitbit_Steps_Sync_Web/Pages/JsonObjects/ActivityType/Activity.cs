@@ -1,6 +1,6 @@
 using System;
 
-namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects
+namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivityType
 {
 
         //*Generated class from json2csharp.com //

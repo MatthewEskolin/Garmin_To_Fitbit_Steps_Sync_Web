@@ -1,0 +1,1 @@
+﻿### /ActivitliesList - Contains JSON classes for objects returned by 	/1/user/[user-id]/activities/list.json

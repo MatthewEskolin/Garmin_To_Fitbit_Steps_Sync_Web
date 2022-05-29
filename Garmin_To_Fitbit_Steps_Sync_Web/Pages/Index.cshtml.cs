@@ -10,12 +10,17 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Garmin_To_FitBit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivitiesList;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivitiesSteps;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.CreateActivity;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.DailyActivities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.ApplicationInsights;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -134,18 +139,14 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
             // AvailableDates = new List<DateTime>(){today,yesterday, daybeforeyesterady};
             AvailableDatesSelect = new List<SelectListItem>(){
-
-
-                new SelectListItem(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
-                new SelectListItem(){Text = $"Yesterday - {yesterday.ToShortDateString()}", Value = yesterday.ToShortDateString()},
-                new SelectListItem(){Text = $"{daybeforeyesterday.ToShortDateString()}", Value = daybeforeyesterday.ToShortDateString()},
-                new SelectListItem(){Text = $"{daysMinus3.ToShortDateString()}", Value = daysMinus3.ToShortDateString()},
-                new SelectListItem(){Text = $"{daysMinus4.ToShortDateString()}", Value = daysMinus4.ToShortDateString()},
-                new SelectListItem(){Text = $"{daysMinus5.ToShortDateString()}", Value = daysMinus5.ToShortDateString()},
-                new SelectListItem(){Text = $"{daysMinus6.ToShortDateString()}", Value = daysMinus6.ToShortDateString()},
-                new SelectListItem(){Text = $"{daysMinus7.ToShortDateString()}", Value = daysMinus7.ToShortDateString()}
-
-
+                new(){Text = $"Today - {today.ToShortDateString()}", Value = today.ToShortDateString()},
+                new(){Text = $"Yesterday - {yesterday.ToShortDateString()}", Value = yesterday.ToShortDateString()},
+                new(){Text = $"{daybeforeyesterday.ToShortDateString()}", Value = daybeforeyesterday.ToShortDateString()},
+                new(){Text = $"{daysMinus3.ToShortDateString()}", Value = daysMinus3.ToShortDateString()},
+                new(){Text = $"{daysMinus4.ToShortDateString()}", Value = daysMinus4.ToShortDateString()},
+                new(){Text = $"{daysMinus5.ToShortDateString()}", Value = daysMinus5.ToShortDateString()},
+                new(){Text = $"{daysMinus6.ToShortDateString()}", Value = daysMinus6.ToShortDateString()},
+                new(){Text = $"{daysMinus7.ToShortDateString()}", Value = daysMinus7.ToShortDateString()}
             };
 
         }
@@ -315,14 +316,46 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         }
 
+        public async Task<bool> ActivityExistsForYesterday()
+        {
+            var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
+
+            var activitiesResponse = await fbApi.GetActivityLogList();
+
+            var captureString = await activitiesResponse.Content.ReadAsStringAsync();
+
+            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
+
+            return activities.activities.Count > 0; 
+
+        }
+
+        public async Task<bool> ActivityExistsForDay(DateOnly date)
+        {
+            var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
+
+            var activitiesResponse = await fbApi.GetActivityLogList();
+
+            var captureString = await activitiesResponse.Content.ReadAsStringAsync();
+
+            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
+
+            return activities.activities.Count > 0;
+
+        }
+
 
         public async Task<IActionResult> OnPostGetActivitiesList()
         {
             var fbApi =  await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
-            var activities = await fbApi.GetActivityLogList();
 
+            // ReSharper disable once UnusedVariable
+            var activitiesResponse = await fbApi.GetActivityLogList();
+
+            //var captureString = await activitiesResponse.Content.ReadAsStringAsync();
+            //var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
             //Dump to Console
-            Console.Write(activities.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+            //Console.Write(captureString);
 
             return Page();
         }

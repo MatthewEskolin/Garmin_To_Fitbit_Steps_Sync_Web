@@ -4,20 +4,17 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Azure;
-using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Garmin_To_Fitbit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.CreateActivity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RestSharp;
 using static System.String;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -28,25 +25,13 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
     /// </summary>
     public class FitBitAPI
     {
-        private FitBitAuthInfo AuthorizationInfo { get; set; }
 
+        //TODO _REFACTOR should we split out the higher order methods into another class that calls this class
+        private FitBitAuthInfo AuthorizationInfo { get; set; }
         public bool ErrorFlag { get; set; }
         public string ErrorMessage { get; set; } = Empty;
-
         private readonly IConfigurationRoot _config;
-
         private bool _tokensVerified = false;
-
-        public static FitBitAPI InitializeApi(FitBitAuthInfo authInfo,IConfigurationRoot config)
-        {
-            var api = new FitBitAPI(config)
-            {
-                AuthorizationInfo = authInfo
-            };
-
-            return api;
-        }
-
         public static async Task<FitBitAPI> InitializeApi(IConfigurationRoot config, bool updateTokens = true)
         {
             var api = new FitBitAPI(config);
@@ -56,6 +41,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             if (updateTokens)
             {
                 var updateTokensResult = await api.UpdateTokens();
+                api._tokensVerified = true;
 
                 if (updateTokensResult == false)
                 {
@@ -71,79 +57,12 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
             return api;
         }
-
-
         private FitBitAPI(IConfigurationRoot config)
         {
             _config = config;
         }
 
-        
-
-
-        /// <summary>
-        /// Update the KeyVault with new tokens
-        /// </summary>
-        /// <returns></returns>
-        ///
-        public  async Task<Response<KeyVaultSecret>> UpdateKeyVault(string key, string value)
-        {
-            var keyVaultUriString = $"https://{_config["KeyVaultName"]}.vault.azure.net/";
-            var keyVaultUri = new System.Uri(keyVaultUriString);
-
-            var credential = new DefaultAzureCredential();
-
-            var client = new SecretClient(keyVaultUri, credential);
-
-            var result = await client.SetSecretAsync(new KeyVaultSecret(key, value));
-
-            return result;
-
-        }
-
-        private async Task<bool> UpdateTokens()
-        {
-            Debug.Assert(!IsNullOrEmpty(_config["Fitbit:AccessToken"]));
-            Debug.Assert(!IsNullOrEmpty(_config["Fitbit:RefreshToken"]));
-
-            //query access token from key vault;out access token
-            var accessToken = _config["Fitbit:AccessToken"];
-            var refreshToken = _config["Fitbit:RefreshToken"];
-
-            var currentAuthInfo = new FitBitAuthInfo(refreshToken, accessToken);
-
-            Debug.WriteLine($"Current Access Token: {currentAuthInfo.AccessToken}");
-            Debug.WriteLine($"Current Refresh Token: {currentAuthInfo.RefreshToken}");
-
-            var newAuthInfo = await GetNewTokens(currentAuthInfo);
-
-            if (newAuthInfo.Item1 == false)
-            {
-                Debug.WriteLine("Request to FitBitAPI for new tokens has failed");
-                return false;
-            }
-
-            //TODO named tuples
-            Debug.WriteLine("");
-            Debug.WriteLine($"New Access Token: {newAuthInfo.Item2.AccessToken}");
-            Debug.WriteLine($"New Refresh Token: {newAuthInfo.Item2.RefreshToken}");
-
-            //TODO convert to named item tuple
-            AuthorizationInfo = newAuthInfo.Item2;
-
-            //Update KeyVault
-            var u1 = UpdateKeyVault("Fitbit--AccessToken", AuthorizationInfo.AccessToken);
-            var u2 = UpdateKeyVault("Fitbit--RefreshToken", AuthorizationInfo.RefreshToken);
-
-            await u1;
-            await u2;
-
-            _config.Reload();
-            return true;
-
-        }
-
-
+        #region FitBit API Calls
 
         /// <summary>
         /// Fitbit API Call - /1/user/-/activities.json 
@@ -270,41 +189,6 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
 
         /// <summary>
-        /// Helper method to call the FitBit API and processes the Response
-        /// </summary>
-        /// <param name="authInfo"></param>
-        /// <returns></returns>
-        private async Task<(bool, FitBitAuthInfo)> GetNewTokens(FitBitAuthInfo authInfo)
-        {
-            //Make Request to FitBit API for new tokens
-            HttpResponseMessage requestResult = await RequestNewTokens(authInfo);
-            var resultString = await requestResult.Content.ReadAsStringAsync();
-
-            //Check for Success
-            if (requestResult.StatusCode != HttpStatusCode.OK)
-            {
-                //request has failed return false
-                return (false, null);
-            }
-
-            
-            //parse the Json to extract the new refresh token 
-            var authResponse = JsonConvert.DeserializeObject<AuthorizationResponse>(resultString);
-            if (authResponse == null)
-            {
-                return (false, null);
-            }
-
-            ////return updated tokens
-            var authinfo = new FitBitAuthInfo(authResponse.refresh_token, authResponse.access_token);
-
-            Debug.Write(resultString);
-
-            return (true, authinfo);
-        }
-
-
-        /// <summary>
         /// Fitbit API Call - /oauth2/token
         /// </summary>
         /// <returns></returns>
@@ -359,6 +243,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
         /// <summary>
         /// Fitbit API Call - GET 1/user/-/activities/list.json?user-id=-@@afterDate=2022-05-26@@sort=asc@@limit=100@@offset=0
+        /// Loads all activities since one day ago.
         /// </summary>
         /// <returns></returns>
         [FitBitApiMethod]
@@ -391,14 +276,119 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
 
         }
 
+        #endregion
+
+        #region Private Helper Methods
+
+
+        /// <summary>
+        /// Update the KeyVault with new tokens
+        /// </summary>
+        /// <returns></returns>
+        ///
+        private async Task<Response<KeyVaultSecret>> UpdateKeyVault(string key, string value)
+        {
+            var keyVaultUriString = $"https://{_config["KeyVaultName"]}.vault.azure.net/";
+            var keyVaultUri = new System.Uri(keyVaultUriString);
+
+            var credential = new DefaultAzureCredential();
+
+            var client = new SecretClient(keyVaultUri, credential);
+
+            var result = await client.SetSecretAsync(new KeyVaultSecret(key, value));
+
+            return result;
+
+        }
+        private async Task<bool> UpdateTokens()
+        {
+            Debug.Assert(!IsNullOrEmpty(_config["Fitbit:AccessToken"]));
+            Debug.Assert(!IsNullOrEmpty(_config["Fitbit:RefreshToken"]));
+
+            //query access token from key vault;out access token
+            var accessToken = _config["Fitbit:AccessToken"];
+            var refreshToken = _config["Fitbit:RefreshToken"];
+
+            var currentAuthInfo = new FitBitAuthInfo(refreshToken, accessToken);
+
+            Debug.WriteLine($"Current Access Token: {currentAuthInfo.AccessToken}");
+            Debug.WriteLine($"Current Refresh Token: {currentAuthInfo.RefreshToken}");
+
+            var newAuthInfo = await GetNewTokens(currentAuthInfo);
+
+            if (newAuthInfo.Item1 == false)
+            {
+                Debug.WriteLine("Request to FitBitAPI for new tokens has failed");
+                return false;
+            }
+
+            //TODO named tuples
+            Debug.WriteLine("");
+            Debug.WriteLine($"New Access Token: {newAuthInfo.Item2.AccessToken}");
+            Debug.WriteLine($"New Refresh Token: {newAuthInfo.Item2.RefreshToken}");
+
+            //TODO convert to named item tuple
+            AuthorizationInfo = newAuthInfo.Item2;
+
+            //Update KeyVault
+            var u1 = UpdateKeyVault("Fitbit--AccessToken", AuthorizationInfo.AccessToken);
+            var u2 = UpdateKeyVault("Fitbit--RefreshToken", AuthorizationInfo.RefreshToken);
+
+            await u1;
+            await u2;
+
+            _config.Reload();
+            return true;
+
+        }
+
+        //Private Helper Methods
+        /// <summary>
+        /// Helper method to call the FitBit API and processes the Response
+        /// </summary>
+        /// <param name="authInfo"></param>
+        /// <returns></returns>
+        private async Task<(bool, FitBitAuthInfo)> GetNewTokens(FitBitAuthInfo authInfo)
+        {
+            //Make Request to FitBit API for new tokens
+            HttpResponseMessage requestResult = await RequestNewTokens(authInfo);
+            var resultString = await requestResult.Content.ReadAsStringAsync();
+
+            //Check for Success
+            if (requestResult.StatusCode != HttpStatusCode.OK)
+            {
+                //request has failed return false
+                return (false, null);
+            }
+
+
+            //parse the Json to extract the new refresh token 
+            var authResponse = JsonConvert.DeserializeObject<AuthorizationResponse>(resultString);
+            if (authResponse == null)
+            {
+                return (false, null);
+            }
+
+            ////return updated tokens
+            var authinfo = new FitBitAuthInfo(authResponse.refresh_token, authResponse.access_token);
+
+            Debug.Write(resultString);
+
+            return (true, authinfo);
+        }
+
+
+        #endregion
+
+        #region UtilityMethods
+
+
+        //Utility Methods
         private HttpClient GetHttpClient()
         {
             var client = new HttpClient();
             return client;
         }
-
-
-
 
         private void ResetError()
         {
@@ -413,6 +403,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         }
 
 
+        #endregion
 
     }
 }
