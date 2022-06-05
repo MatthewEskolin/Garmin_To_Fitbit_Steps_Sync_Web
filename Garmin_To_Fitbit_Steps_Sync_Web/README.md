@@ -103,5 +103,6 @@ https://dev.fitbit.com/apps/details/22BNTM
 * Next: Consider Deserializing /ActivitiesList Response into strongly typed object so we can read the propeties and dates easily
 * Next: Figure out where all the debug logging is coming from
 
-
+### 06/02/2022
+* Next: Consider trying an Ubuntu VM in azure to run this app on a schedule where we don't have to worry about it on our local machine
 
