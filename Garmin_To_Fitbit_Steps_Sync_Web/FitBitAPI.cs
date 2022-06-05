@@ -11,6 +11,7 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Garmin_To_Fitbit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
+using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivitiesList;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.CreateActivity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
@@ -61,6 +62,34 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         {
             _config = config;
         }
+
+        #region Methods That Build On Top of FitBit API Calls - Higher Order
+
+        public async Task<bool> ActivityExistsSinceDay(DateOnly date)
+        {
+            var activitiesResponse = await GetActivityLogList(date);
+            var activitiesResponseJsonString = await activitiesResponse.Content.ReadAsStringAsync();
+            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(activitiesResponseJsonString);
+
+            return activities.activities.Count > 0;
+
+        }
+
+        public async Task<bool> ActivityExistsForDate(DateOnly date)
+        {
+            var activitiesResponse = await GetActivityLogList(fromDate:date, toDate:date);
+            var activitiesResponseJsonString = await activitiesResponse.Content.ReadAsStringAsync();
+            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(activitiesResponseJsonString);
+
+            return activities.activities.Count > 0;
+
+        }
+
+
+
+
+        #endregion
+
 
         #region FitBit API Calls
 
@@ -132,6 +161,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
                     break;
 
                 case HttpStatusCode.OK:
+                    SetError("No Steps Added. It is possible this activity overlaps with an activity that already exists.");
                     break;
                 default:
                     Debug.WriteLine($"Fitbit API Error Response");
@@ -152,7 +182,6 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
                         SetError("Activty Creation Failed - Unknown Response Type.");
                         return;
                     }
-                    break;
             }
 
 
@@ -247,7 +276,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         /// </summary>
         /// <returns></returns>
         [FitBitApiMethod]
-        public async Task<HttpResponseMessage> GetActivityLogList()
+        public async Task<HttpResponseMessage> GetActivityLogList(DateOnly? fromDate = null, DateOnly? toDate = null)
         {
             var url = "https://api.fitbit.com/1/user/-/activities/list.json";
 
@@ -255,12 +284,24 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
             var queryString = new Dictionary<string, string>()
             {
                 {"user-id", "-"},
-                {"afterDate", DateTime.Now.AddDays(-1).Date.ToString("yyyy-MM-dd")},
                 {"sort", "asc"},
                 {"limit", "100"},
                 {"offset", "0"}
 
             };
+
+            if (fromDate != null)
+            {
+                queryString.Add("afterDate", fromDate.Value.ToString("yyyy-MM-dd"));
+            }
+
+            if (toDate != null)
+            {
+                queryString.Add("toDate", toDate.Value.ToString("yyyy-MM-dd"));
+            }
+
+
+
 
 
             url = QueryHelpers.AddQueryString(url, queryString);

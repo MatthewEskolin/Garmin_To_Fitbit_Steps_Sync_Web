@@ -94,8 +94,10 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         //Step Data
         [Display(Name = "Last 7 Days Steps")]
+        [BindProperty]
         public long? LastSevenDaysSteps { get; set; }
         [Display(Name = "Last 7 Days Average")]
+        [BindProperty]
         public long? LastSevenDaysAverageSteps { get; set; }
 
 
@@ -316,41 +318,49 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
         }
 
-        public async Task<bool> ActivityExistsForYesterday()
-        {
-            var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
+        //public async Task<bool> ActivityExistsForYesterday()
+        //{
+        //    var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
 
-            var activitiesResponse = await fbApi.GetActivityLogList();
+        //    var activitiesResponse = await fbApi.GetActivityLogList();
 
-            var captureString = await activitiesResponse.Content.ReadAsStringAsync();
+        //    var captureString = await activitiesResponse.Content.ReadAsStringAsync();
 
-            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
+        //    var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
 
-            return activities.activities.Count > 0; 
+        //    return activities.activities.Count > 0; 
 
-        }
+        //}
 
-        public async Task<bool> ActivityExistsForDay(DateOnly date)
-        {
-            var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
+        //public async Task<bool> ActivityExistsForDay(DateOnly date)
+        //{
+        //    var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
 
-            var activitiesResponse = await fbApi.GetActivityLogList();
+        //    var activitiesResponse = await fbApi.GetActivityLogList();
 
-            var captureString = await activitiesResponse.Content.ReadAsStringAsync();
+        //    var captureString = await activitiesResponse.Content.ReadAsStringAsync();
 
-            var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
+        //    var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
 
-            return activities.activities.Count > 0;
+        //    return activities.activities.Count > 0;
 
-        }
+        //}
 
 
+        /// <summary>
+        /// Gets Activities from the last seven days - used for testing
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> OnPostGetActivitiesList()
         {
+
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            var fromDate = today.AddDays(-7);
+
             var fbApi =  await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
 
             // ReSharper disable once UnusedVariable
-            var activitiesResponse = await fbApi.GetActivityLogList();
+            var activitiesResponse = await fbApi.GetActivityLogList(fromDate);
 
             //var captureString = await activitiesResponse.Content.ReadAsStringAsync();
             //var activities = JsonConvert.DeserializeObject<ActivitiesListRoot>(captureString);
@@ -395,105 +405,121 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
 
 
         //Creates an Activity  
-        public void OnPostCreateActivity()
+        public async Task<IActionResult> OnPostCreateActivity()
         {
             //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
+            var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
 
-            //Create's an activity inside my fitbit account for the day with the input number of steps.
-
-            var postCreateNewActivityUrl = "https://api.fitbit.com/1/user/-/activities.json";
-
-            using (var client = new HttpClient())
+            var activityExists = await fbApi.ActivityExistsForDate(DateOnly.FromDateTime(ActivityDate.Date));
+            if (activityExists)
             {
-
-                var steps = Steps.ToString();
-
-                var today = ActivityDate.ToString("yyyy-MM-dd");
-                var postData = new List<KeyValuePair<string, string>>(){
-
-                            //17190 - walking 3.0 mph pace
-                            new("activityId", "17190"),
-                            new("startTime", "12:00"),
-                            new("durationMillis", "43199999"),
-                            new("date", today),
-                            new("distanceUnit", "steps"),
-                            new("distance", steps),
-                        };
-
-
-                var request = new HttpRequestMessage();
-                request.Method = HttpMethod.Post;
-                request.RequestUri = new Uri(postCreateNewActivityUrl);
-
-                HttpContent content = new FormUrlEncodedContent(postData);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-                request.Content = content;
-
-                request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
-
-                var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
-
-                var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                if (responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
-                {
-                    //attempt to deserialize error state
-                    try
-                    {
-
-                        var serializedresult = JsonSerializer.Deserialize<ErrorRoot>(result);
-                        SystemMessage = serializedresult.errors[0].message;
-                        return;
-
-                    }
-                    catch
-                    {
-                        SystemMessage = "Activty Creation Failed - Unknown Response Type.";
-                        return;
-                    }
-                }
-                else
-                {
-                    //Should be an activity root returned
-                    var serializedresult = JsonSerializer.Deserialize<ActivityLogRoot>(result);
-                    string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
-
-                }
-
-                //*Json Can be Deserialied and then Serialized again in order to format with with indents for readabiility
-                // var serializedresult = JsonSerializer.Deserialize<Root>(result);
-                // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
-                // var steps = serializedresult.summary.steps;
-
-                //*Uncomment below lineto get result returned from API
-                //return new ContentResult { Content = result, ContentType = "application/json" };
-                if (responseResult.StatusCode == System.Net.HttpStatusCode.Created)
-                {
-                    //new activity record created
-                    SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
-
-                }
-                else
-                {
-                    //System.Net.HttpStatusCode.OK
-
-                    //no data changed -> not sure why this happens, it could be that the activity overlaps with an existing activity.
-                    SystemMessage = $"No Steps Added. It is possible this activity overlaps with an activity that already exists.";
-
-                }
-
-
-                telemetry.TrackEvent("Steps Added", new Dictionary<string,string>(){{"steps",Steps.ToString()},{"ActivityDate",this.ActivityDate.ToShortDateString()}});
-                SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
-
-
-                //Update Step Data
-                GetStepData();
-
+                this.SystemMessage = "Activity For this Date Already Exists";
+                //GetStepData();
+                return Page();
             }
 
+            await fbApi.CreateDailySteps(ActivityDate, Steps);
 
+            if (fbApi.ErrorFlag)
+            {
+                this.SystemMessage = fbApi.ErrorMessage;
+            }
+            else
+            {
+                telemetry.TrackEvent("Steps Added", new Dictionary<string, string>() { { "steps", Steps.ToString() }, { "ActivityDate", this.ActivityDate.ToShortDateString() } });
+                SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+                GetStepData();
+            }
+
+            #region commented out
+            //var postCreateNewActivityUrl = "https://api.fitbit.com/1/user/-/activities.json";
+
+            //using (var client = new HttpClient())
+            //{
+
+            //    //var steps = Steps.ToString();
+
+            //    //var today = ActivityDate.ToString("yyyy-MM-dd");
+            //    var postData = new List<KeyValuePair<string, string>>(){
+
+            //                //17190 - walking 3.0 mph pace
+            //                new("activityId", "17190"),
+            //                new("startTime", "12:00"),
+            //                new("durationMillis", "43199999"),
+            //                new("date", today),
+            //                new("distanceUnit", "steps"),
+            //                new("distance", steps),
+            //            };
+
+
+            //    var request = new HttpRequestMessage();
+            //    request.Method = HttpMethod.Post;
+            //    request.RequestUri = new Uri(postCreateNewActivityUrl);
+
+            //    HttpContent content = new FormUrlEncodedContent(postData);
+            //    content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            //    request.Content = content;
+
+            //    request.Headers.Add("Authorization", $"Bearer {this.Authorization.access_token}");
+
+            //    var responseResult = client.SendAsync(request).GetAwaiter().GetResult();
+
+            //    var result = responseResult.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+            //    if (responseResult.StatusCode != System.Net.HttpStatusCode.OK && responseResult.StatusCode != System.Net.HttpStatusCode.Created)
+            //    {
+            //        //attempt to deserialize error state
+            //        try
+            //        {
+
+            //            var serializedresult = JsonSerializer.Deserialize<ErrorRoot>(result);
+            //            SystemMessage = serializedresult.errors[0].message;
+            //            return;
+
+            //        }
+            //        catch
+            //        {
+            //            SystemMessage = "Activty Creation Failed - Unknown Response Type.";
+            //            return;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        //Should be an activity root returned
+            //        var serializedresult = JsonSerializer.Deserialize<ActivityLogRoot>(result);
+            //        string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
+
+            //    }
+
+            //    //*Json Can be Deserialied and then Serialized again in order to format with with indents for readabiility
+            //    // var serializedresult = JsonSerializer.Deserialize<Root>(result);
+            //    // string jsonFormatted = JsonSerializer.Serialize(serializedresult, new JsonSerializerOptions() { WriteIndented = true });
+            //    // var steps = serializedresult.summary.steps;
+
+            //    //*Uncomment below lineto get result returned from API
+            //    //return new ContentResult { Content = result, ContentType = "application/json" };
+            //    if (responseResult.StatusCode == System.Net.HttpStatusCode.Created)
+            //    {
+            //        //new activity record created
+            //        SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+
+            //    }
+            //    else
+            //    {
+            //        //System.Net.HttpStatusCode.OK
+
+            //        //no data changed -> not sure why this happens, it could be that the activity overlaps with an existing activity.
+            //        SystemMessage = $"No Steps Added. It is possible this activity overlaps with an activity that already exists.";
+
+            //    }
+
+
+            //    telemetry.TrackEvent("Steps Added", new Dictionary<string,string>(){{"steps",Steps.ToString()},{"ActivityDate",this.ActivityDate.ToShortDateString()}});
+            //    SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
+                #endregion
+
+            return Page();
         }
 
         /// <summary>

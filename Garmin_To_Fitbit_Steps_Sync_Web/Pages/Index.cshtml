@@ -173,26 +173,6 @@ running or walking, a start time, a total time, and distance in steps.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @* Hidden Fields *@
 @Html.HiddenFor(x => x.ConnectionStateCode)
 @Html.HiddenFor(x => x.ConnectionState)
@@ -201,4 +181,6 @@ running or walking, a start time, a total time, and distance in steps.
 @Html.HiddenFor(x => x.Authorization.expires_in)
 @Html.HiddenFor(x => x.Authorization.token_type)
 @Html.HiddenFor(x => x.Authorization.user_id)
+@Html.HiddenFor(x => x.LastSevenDaysAverageSteps)
+@Html.HiddenFor(x => x.LastSevenDaysSteps)
 </form>
