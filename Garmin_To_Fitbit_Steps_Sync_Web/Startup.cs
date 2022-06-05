@@ -69,6 +69,9 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
             {
                 endpoints.MapRazorPages();
             });
+
+
+
         }
     }
 }

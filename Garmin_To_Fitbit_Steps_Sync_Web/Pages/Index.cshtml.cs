@@ -10,9 +10,7 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Garmin_To_FitBit_Steps_Sync_Web;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects;
-using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivitiesList;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.ActivitiesSteps;
-using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.CreateActivity;
 using Garmin_To_Fitbit_Steps_Sync_Web.Pages.JsonObjects.DailyActivities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,7 +18,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.ApplicationInsights;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
