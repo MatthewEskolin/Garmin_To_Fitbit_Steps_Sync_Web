@@ -158,6 +158,9 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
                     //Should be an activity root returned
                     var serializedresult1 = JsonSerializer.Deserialize<ActivityLogRoot>(result);
                     string jsonFormatted = JsonSerializer.Serialize(serializedresult1, new JsonSerializerOptions() { WriteIndented = true });
+
+                    //TODO log using telemetry here.
+
                     break;
 
                 case HttpStatusCode.OK:
