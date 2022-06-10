@@ -53,8 +53,8 @@ namespace GarminConnectScraper
 
             var frame = await elementHandle.Result.ContentFrameAsync();
             
-            var userName = config.GetValue<string>("UserName");
-            var passWord = config.GetValue<string>("Password");
+            var userName = config.GetValue<string>("GarminUserName");
+            var passWord = config.GetValue<string>("GarminPassword");
 
             //Debug.WriteLine($"username={userName};password={passWord}");
 

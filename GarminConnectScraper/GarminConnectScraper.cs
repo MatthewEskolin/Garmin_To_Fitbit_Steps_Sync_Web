@@ -20,11 +20,22 @@ public class GarminConnectScraper
 
     public async Task Run()
     {
-        var steps = await GetStepsFromGarmin();
+        try
+        {
 
-        Steps = steps;
+            var steps = await GetStepsFromGarmin();
 
-        await SendStepsToFitBit();
+            Steps = steps;
+
+            await SendStepsToFitBit();
+        }
+        finally
+        {
+            if (this._configuration["ReadLine"] == "true")
+            {
+                Console.ReadLine();
+            }
+        }
     }
 
     private async Task<int> GetStepsFromGarmin()

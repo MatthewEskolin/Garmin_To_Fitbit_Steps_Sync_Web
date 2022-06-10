@@ -28,9 +28,11 @@ namespace GarminConnectScraper
             config.AddAzureKeyVault(new System.Uri("https://kvfitbitapi.vault.azure.net/"), credential);
             var cnfg = config.Build();
 
+
             ////Run Main Program Tasks
             var program = new GarminConnectScraper(cnfg);
             await program.Run();
+
 
 
 
