@@ -401,6 +401,18 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
 
 
+        public async Task<IActionResult> OnPostTestBoundValues()
+        {
+            await Task.CompletedTask;
+
+            this.LastSevenDaysAverageSteps = 2;
+            this.LastSevenDaysSteps = 3;
+            return Page();
+
+        }
+
+
+
         //Creates an Activity  
         public async Task<IActionResult> OnPostCreateActivity()
         {

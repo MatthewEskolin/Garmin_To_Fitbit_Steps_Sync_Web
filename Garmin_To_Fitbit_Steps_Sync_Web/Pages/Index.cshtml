@@ -50,7 +50,6 @@ running or walking, a start time, a total time, and distance in steps.
 
 
 
-
 @* Only show this button if we are not connected *@
 @* TODO only show this below if we are not connected *@
 
@@ -87,13 +86,13 @@ running or walking, a start time, a total time, and distance in steps.
 <div class="form-group row">
     @Html.LabelFor(x => x.LastSevenDaysAverageSteps,new {@class = "col-sm-2 col-form-label"})
     <div class="col-sm-6">
-      <input asp-for="LastSevenDaysAverageSteps" type="text" readonly class="form-control-plaintext">
+        <input name="LastSevenDaysAverageSteps" value="@Model.LastSevenDaysAverageSteps" type="text" readonly class="form-control-plaintext">
     </div>
 </div>
 <div class="form-group row">
     @Html.LabelFor(x => x.LastSevenDaysSteps,new {@class = "col-sm-2 col-form-label"})
     <div class="col-sm-6" class="form-cont">
-      <input asp-for="LastSevenDaysSteps" type="text" readonly class="form-control-plaintext">
+        <input name="LastSevenDaysSteps" value="@Model.LastSevenDaysSteps" type="text" readonly class="form-control-plaintext">
     </div>
 </div>
 <div class="form-group row">
@@ -108,7 +107,8 @@ running or walking, a start time, a total time, and distance in steps.
         <input asp-for="Steps" type="text" id="inSteps" class="form-control">
     </div>
 </div>
-<input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Log Steps" type="submit" />
+    <input class="btn btn-primary" asp-page-handler="CreateActivity" Value="Log Steps" type="submit" />
+    <input class="btn btn-primary" asp-page-handler="TestBoundValues" Value="TestBoundValues" type="submit" />
 
 <br />
 }
@@ -181,6 +181,6 @@ running or walking, a start time, a total time, and distance in steps.
 @Html.HiddenFor(x => x.Authorization.expires_in)
 @Html.HiddenFor(x => x.Authorization.token_type)
 @Html.HiddenFor(x => x.Authorization.user_id)
-@Html.HiddenFor(x => x.LastSevenDaysAverageSteps)
-@Html.HiddenFor(x => x.LastSevenDaysSteps)
+@*@Html.HiddenFor(x => x.LastSevenDaysAverageSteps)
+@Html.HiddenFor(x => x.LastSevenDaysSteps)*@
 </form>
