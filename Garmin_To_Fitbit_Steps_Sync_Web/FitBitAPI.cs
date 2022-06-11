@@ -100,7 +100,7 @@ namespace Garmin_To_FitBit_Steps_Sync_Web
         /// <param name="steps"></param>
         /// <returns></returns>
         [FitBitApiMethod]
-        public async Task CreateDailySteps(DateTime activityDate, long steps)
+        public async Task CreateDailySteps(DateOnly activityDate, long steps)
         {
             ResetError();
 

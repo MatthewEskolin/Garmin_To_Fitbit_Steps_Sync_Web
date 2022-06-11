@@ -30,10 +30,8 @@ namespace GarminConnectScraper
 
 
             ////Run Main Program Tasks
-            var program = new GarminConnectScraper(cnfg);
+            var program = await GarminConnectScraper.Create(cnfg);
             await program.Run();
-
-
 
 
         }
