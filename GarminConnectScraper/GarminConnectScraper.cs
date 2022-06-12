@@ -2,6 +2,7 @@
 using Garmin_To_Fitbit_Steps_Sync_Web;
 using Garmin_To_FitBit_Steps_Sync_Web;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 
 namespace GarminConnectScraper;
@@ -43,7 +44,8 @@ public class GarminConnectScraper
             var stepsExist = await this.CheckIfFbStepsExist();
             if (stepsExist)
             {
-                Debug.WriteLine($"Steps for {Yesterday} already exist");
+                Debug.WriteLine($"Steps for {Yesterday} already in Fitbit");
+                Console.WriteLine($"Steps for {Yesterday} already in Fibit");
                 return;
             }
 
@@ -104,6 +106,12 @@ public class GarminConnectScraper
         }
         else
         {
+            //TODO need telemetry here from dependency injection
+
+            var tel = TelemetryConfiguration.CreateDefault();
+            var client = new TelemetryClient(tel);
+
+
             //telemetry.TrackEvent("Steps Added", new Dictionary<string, string>() { { "steps", Steps.ToString() }, { "ActivityDate", this.ActivityDate.ToShortDateString() } });
             //SystemMessage = $"{Steps} Steps added for {this.ActivityDate.ToShortDateString()} ";
             //GetStepData();

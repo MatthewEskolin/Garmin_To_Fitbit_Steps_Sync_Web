@@ -16,6 +16,11 @@ namespace GarminConnectScraper
         static async Task Main(string[] args)
         {
 
+            //TODO figure out how to use this for telemetry
+            //using IHost host = Host.CreateDefaultBuilder(args).Build();
+            //host.
+            //await host.RunAsync();
+
             //Setup Config
             //Will utilize Azure Key Vault.
             var config = new ConfigurationBuilder()
