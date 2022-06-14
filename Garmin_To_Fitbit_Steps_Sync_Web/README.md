@@ -106,3 +106,7 @@ https://dev.fitbit.com/apps/details/22BNTM
 ### 06/02/2022
 * Next: Consider trying an Ubuntu VM in azure to run this app on a schedule where we don't have to worry about it on our local machine
 
+### 06/14/2022
+* vm's are not starting and running properly, need to check this
+
+
