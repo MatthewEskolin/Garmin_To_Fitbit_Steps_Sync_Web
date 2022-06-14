@@ -401,13 +401,27 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
         }
 
 
+        public async Task<IActionResult> OnPostTestBoundValues()
+        {
+            await Task.CompletedTask;
+
+            this.LastSevenDaysAverageSteps = 2;
+            this.LastSevenDaysSteps = 3;
+            return Page();
+
+        }
+
+
+
         //Creates an Activity  
         public async Task<IActionResult> OnPostCreateActivity()
         {
             //TODO_REFACTOR Does it make sense to bind the dependencies for this method as a parameter.
             var fbApi = await FitBitAPI.InitializeApi((IConfigurationRoot)Configuration, false);
 
-            var activityExists = await fbApi.ActivityExistsForDate(DateOnly.FromDateTime(ActivityDate.Date));
+            var activityDate = DateOnly.FromDateTime(ActivityDate.Date);
+
+            var activityExists = await fbApi.ActivityExistsForDate(activityDate);
             if (activityExists)
             {
                 this.SystemMessage = "Activity For this Date Already Exists";
@@ -415,7 +429,7 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web.Pages
                 return Page();
             }
 
-            await fbApi.CreateDailySteps(ActivityDate, Steps);
+            await fbApi.CreateDailySteps(activityDate, Steps);
 
             if (fbApi.ErrorFlag)
             {

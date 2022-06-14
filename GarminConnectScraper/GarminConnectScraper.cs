@@ -12,19 +12,61 @@ public class GarminConnectScraper
 
     private readonly IConfigurationRoot _configuration;
     private long Steps { get; set; } = 0;
+    private FitBitAPI fbAPI { get; set; }
+    private DateOnly Yesterday { get; set; }
 
-    public GarminConnectScraper(IConfigurationRoot cnfg)
+    private GarminConnectScraper(IConfigurationRoot cnfg)
     {
         _configuration = cnfg;
+
+        //Create steps for previous day as we want to spread our steps out over a 12 hour span, so a max of two such activities can be created in a 24 hour period.
+        //If we try to submit steps on the day they occur, we will get errors when trying to submit the remaining steps later.
+        Yesterday = DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
     }
+
+
+    public static async Task<GarminConnectScraper> Create(IConfigurationRoot cnfg)
+    {
+        var gcs = new GarminConnectScraper(cnfg)
+        {
+            fbAPI = await FitBitAPI.InitializeApi(cnfg)
+        };
+        return gcs;
+    }
+
 
     public async Task Run()
     {
-        var steps = await GetStepsFromGarmin();
+        try
+        {
+            //check if steps for the previous day have already been input. If yes, refresh token and exit. 
+            var stepsExist = await this.CheckIfFbStepsExist();
+            if (stepsExist)
+            {
+                Debug.WriteLine($"Steps for {Yesterday} already exist");
+                return;
+            }
 
-        Steps = steps;
+            var steps = await GetStepsFromGarmin();
 
-        await SendStepsToFitBit();
+            Steps = steps;
+
+            await SendStepsToFitBit();
+        }
+        finally
+        {
+            if (this._configuration["ReadLine"] == "true")
+            {
+                Console.ReadLine();
+            }
+        }
+    }
+
+
+    private async Task<bool> CheckIfFbStepsExist()
+    {
+        var activityExists = await fbAPI.ActivityExistsForDate(Yesterday);
+        return activityExists;
     }
 
     private async Task<int> GetStepsFromGarmin()
@@ -41,29 +83,24 @@ public class GarminConnectScraper
 
         return steps;
     }
-
     private async Task SendStepsToFitBit()
     {
 
         Debug.WriteLine($"Sending to FitBit...");
 
-        //Create steps for previous day as we want to spread our steps out over a 12 hour span, so a max of two such activities can be created in a 24 hour period.
-        //If we try to submit steps on the day they occur, we will get errors when trying to submit the remaining steps later.
-        var yesterday = DateTime.Now.AddDays(-1);
-        var api = await FitBitAPI.InitializeApi(_configuration);
-
-        var activityExists = await api.ActivityExistsForDate(DateOnly.FromDateTime(yesterday.Date));
+        var activityExists = await fbAPI.ActivityExistsForDate(Yesterday);
         if (activityExists)
         {
-            Debug.WriteLine($"Activity already exists for {yesterday.Date.ToShortDateString()}");
+            Debug.WriteLine($"Activity already exists for {Yesterday.ToShortDateString()}");
+            return;
         }
 
-        await api.CreateDailySteps(yesterday, Steps);
+        await fbAPI.CreateDailySteps(Yesterday, Steps);
 
-        if (api.ErrorFlag)
+        if (fbAPI.ErrorFlag)
         {
-            Debug.WriteLine($"Error:{api.ErrorMessage}");
-            Console.WriteLine($"Error:{api.ErrorMessage}");
+            Debug.WriteLine($"Error:{fbAPI.ErrorMessage}");
+            Console.WriteLine($"Error:{fbAPI.ErrorMessage}");
         }
         else
         {
