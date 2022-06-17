@@ -22,7 +22,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
 
 
-//TODO how to have different keys between development-production. Does this key vault always get used.
  public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                    .ConfigureAppConfiguration((context,config) =>
