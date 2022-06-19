@@ -109,4 +109,15 @@ https://dev.fitbit.com/apps/details/22BNTM
 ### 06/14/2022
 * vm's are not starting and running properly, need to check this
 
+### 06/18/2022
+Hybrid Runbook Workers connected to Azure Runbooks - try to get the working
+https://docs.microsoft.com/en-us/azure/automation/automation-hybrid-runbook-worker
+https://docs.microsoft.com/en-us/azure/automation/automation-hrw-run-runbooks
+https://docs.microsoft.com/en-us/powershell/module/az.automation/start-azautomationrunbook?view=azps-8.0.0
+
+
+
+
+
+
 
