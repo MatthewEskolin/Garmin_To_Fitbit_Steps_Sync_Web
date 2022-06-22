@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <None Remove="AppSettings.json" />
+    <None Remove="RunBook\rb_StepScraper_Child.ps1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="RunBook\rb_StepScraper_Child.ps1" />
   </ItemGroup>
 
   <ItemGroup>
