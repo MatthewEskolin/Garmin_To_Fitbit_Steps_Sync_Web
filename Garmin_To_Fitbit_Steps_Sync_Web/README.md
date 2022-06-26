@@ -116,6 +116,10 @@ https://docs.microsoft.com/en-us/azure/automation/automation-hrw-run-runbooks
 https://docs.microsoft.com/en-us/powershell/module/az.automation/start-azautomationrunbook?view=azps-8.0.0
 
 
+### 06/24/2022
+Next step is to get the telemetry to work correctly and cleanup the logs
+
+
 
 
 
