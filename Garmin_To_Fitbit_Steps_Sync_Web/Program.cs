@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Garmin_To_Fitbit_Steps_Sync_Web
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -23,10 +23,6 @@ namespace Garmin_To_Fitbit_Steps_Sync_Web
 
                     }).UseStartup<Startup>();
     }
-
-
-
-
 
 
 
