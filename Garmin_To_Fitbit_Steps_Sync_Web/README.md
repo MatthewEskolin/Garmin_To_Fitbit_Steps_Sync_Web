@@ -117,8 +117,9 @@ https://docs.microsoft.com/en-us/powershell/module/az.automation/start-azautomat
 
 
 ### 06/24/2022
+### 07/05/2022
 Next step is to get the telemetry to work correctly and cleanup the logs
-
+Also Need to setup a github action for easier deployment
 
 
 
