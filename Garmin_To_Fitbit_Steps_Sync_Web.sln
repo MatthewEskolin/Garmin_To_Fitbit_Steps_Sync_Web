@@ -5,7 +5,12 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Garmin_To_Fitbit_Steps_Sync_Web", "Garmin_To_Fitbit_Steps_Sync_Web\Garmin_To_Fitbit_Steps_Sync_Web.csproj", "{CF2B9816-6DDB-43B3-8869-65CFF7F05D1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarminConnectScraper", "GarminConnectScraper\GarminConnectScraper.csproj", "{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarminConnectScraper", "GarminConnectScraper\GarminConnectScraper.csproj", "{CA57C49D-5CE0-4D8F-9FBD-27037E95AAC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ABA1A65A-7E62-4285-8FC5-7CA4B9E743EB}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deploy-to-azure.yml = .github\workflows\deploy-to-azure.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
